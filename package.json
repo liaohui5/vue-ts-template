@@ -1,0 +1,51 @@
+{
+  "name": "vuets-with-vitest",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=8080",
+    "test": "vitest",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "@vueuse/core": "^12.3.0",
+    "axios": "^1.7.9",
+    "crypto-js": "^4.2.0",
+    "lodash-es": "^4.17.21",
+    "pinia": "^2.3.0",
+    "uuid": "^11.0.4",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@anatine/zod-mock": "^3.13.4",
+    "@types/crypto-js": "^4.2.2",
+    "@types/lodash-es": "^4.17.12",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/test-utils": "^2.4.6",
+    "@vue/tsconfig": "^0.7.0",
+    "autoprefixer": "^10.4.20",
+    "axios-mock-adapter": "^2.1.0",
+    "daisyui": "^4.12.23",
+    "happy-dom": "^16.5.3",
+    "msw": "^2.7.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.7",
+    "vite-plugin-inspect": "^10.0.6",
+    "vitest": "^2.1.8",
+    "vue-router-mock": "^1.1.0",
+    "vue-tsc": "^2.2.0"
+  },
+  "license": "MIT",
+  "msw": {
+    "workerDirectory": [
+      ""
+    ]
+  }
+}
