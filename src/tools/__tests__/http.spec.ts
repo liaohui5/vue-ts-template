@@ -1,12 +1,11 @@
 import AxiosMockAdapter from "axios-mock-adapter";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getHttpInst, REQUEST_ID_KEY, TOKEN_HEADER_KEY } from "@/tools/http";
+import { http, REQUEST_ID_KEY, TOKEN_HEADER_KEY } from "@/tools/http";
 import { saveToken } from "@/tools/token";
 import * as handler from "@/tools/http/httpErrorHandler";
 
 // 专门用于单元测试的 axios 的 adapater
 // https://github.com/ctimmerm/axios-mock-adapter
-const http = getHttpInst();
 const mockHttp = new AxiosMockAdapter(http);
 
 // 发送请求

@@ -6,6 +6,7 @@ const envRules = z.object({
   DEV: z.boolean(),
   PROD: z.boolean(),
   SSR: z.boolean(),
+  VITE_APP_API_BASE_URL: z.string(),
   VITE_APP_DEBUG_MODE_ENABLED: z.enum(["true", "false"]).transform(Boolean),
   VITE_APP_MOCK_API_ENABLED: z.enum(["true", "false"]).transform(Boolean),
   VITE_APP_API_VLIDATION_ENABLED: z.enum(["true", "false"]).transform(Boolean),

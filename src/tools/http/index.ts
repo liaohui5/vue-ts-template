@@ -1,33 +1,26 @@
 import axios from "axios";
-import type { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults } from "axios";
-import { isObject, merge, uuid, hasToken, getToken, isNil, env } from "@/tools";
+import { isObject, merge, uuid, hasToken, getToken, env } from "@/tools";
 import { httpErrorHandler } from "@/tools/http/httpErrorHandler";
 import type { ZodTypeAny } from "zod";
+import type { AxiosInstance, AxiosRequestConfig } from "axios";
 
 //////////////////////////////////////////////
 // get http instance                        //
 //////////////////////////////////////////////
-let httpInst: AxiosInstance;
-export function getHttpInst(opts: CreateAxiosDefaults = {}) {
-  if (isNil(httpInst)) {
-    httpInst = createHttpInst(opts);
-  }
-  return httpInst;
-}
+export const http = createHttpInst();
 
 //////////////////////////////////////////////
 // create http instance with default config //
 //////////////////////////////////////////////
-export const baseURL = import.meta.env.VITE_BASE_URL;
-function createHttpInst(opts: CreateAxiosDefaults = {}) {
-  const defaultOpts = {
+function createHttpInst() {
+  const baseURL = env.VITE_APP_API_BASE_URL;
+  const http = axios.create({
     baseURL,
     timeout: 1000 * 10, // 10s
     headers: {
       Accept: "application/json",
     },
-  };
-  const http = axios.create(merge(defaultOpts, opts));
+  });
 
   applyValidationInterceptor(http);
   applyRequesetIdInterceptor(http);

@@ -1,4 +1,4 @@
-import { getHttpInst } from "@/tools/http";
+import { http } from "@/tools/http";
 import { encryptPassword, addRenameFileds } from "./transformers/auth";
 import { type LoginFormType, type LoginResponseType } from "@/types";
 import { LoginFormRules, LoginResponseRules } from "@/validation";
@@ -10,7 +10,7 @@ import { LoginFormRules, LoginResponseRules } from "@/validation";
  * @returns {Promise<AxiosResponse<LoginResponseType>>}
  */
 export const login = async (data: LoginFormType): Promise<LoginResponseType> => {
-  const response = await getHttpInst().request({
+  const response = await http.request({
     url: "/api/auth",
     method: "POST",
     data: encryptPassword(data),

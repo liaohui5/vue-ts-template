@@ -44,8 +44,6 @@
   },
   "license": "MIT",
   "msw": {
-    "workerDirectory": [
-      ""
-    ]
+    "workerDirectory": [""]
   }
 }
