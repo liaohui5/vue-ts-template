@@ -30,11 +30,11 @@
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.20",
     "axios-mock-adapter": "^2.1.0",
-    "daisyui": "^4.12.23",
+    "daisyui": "4.12.23",
     "happy-dom": "^16.5.3",
     "msw": "^2.7.0",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "3.4.17",
     "typescript": "~5.6.2",
     "vite": "^6.0.7",
     "vite-plugin-inspect": "^10.0.6",
@@ -44,6 +44,8 @@
   },
   "license": "MIT",
   "msw": {
-    "workerDirectory": [""]
+    "workerDirectory": [
+      ""
+    ]
   }
 }

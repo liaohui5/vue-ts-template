@@ -9,7 +9,7 @@ describe("transformers auth", () => {
       password: "123456",
     };
     const result = encryptPassword(data);
-    expect(result.password).toBe("c4ca4238a0b923820dcc509a6f75849b");
+    expect(result.password).toBe("e10adc3949ba59abbe56e057f20f883e");
   });
 
   it("应该添加头像和用户昵称字段", () => {
