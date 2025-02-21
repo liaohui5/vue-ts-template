@@ -1,1 +1,1 @@
-export * from "@/hooks/goto";
+export * from "@/hooks/useGoto";

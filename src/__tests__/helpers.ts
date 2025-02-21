@@ -70,7 +70,9 @@ export function mountSetupComponentWithRouterMock(setup: () => void) {
 }
 
 /**
- * 用 mock service server 来模拟后端数据
- * 方便测试 API 请求
- */
-export * from "@/__mocks__/node";
+ * 重置 localStorage 和 sessionStorage 状态
+ **/
+export function resetStorage() {
+  localStorage.clear();
+  sessionStorage.clear();
+}

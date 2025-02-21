@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { setupRouter } from "@/router";
 import { setupStore } from "@/store";
+import { setupElementPlus } from "@/plugins/element-plus";
 import { env } from "@/tools";
 import App from "./App.vue";
 import "./style.css";
@@ -15,6 +16,7 @@ async function setupMSW() {
 
 async function setupApp() {
   const app = createApp(App);
+  setupElementPlus(app);
   setupStore(app);
   await setupRouter(app);
   app.mount("#app");

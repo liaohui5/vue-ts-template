@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { setupRouterMock } from "@/__tests__/helpers";
 import { RouteNames } from "@/router";
-import { hasToken, removeToken, saveToken } from "@/tools/token";
+import { hasToken, removeToken, saveToken, progress } from "@/tools";
 
 describe("router", () => {
   describe("检查登录路由守卫", () => {
@@ -22,6 +22,19 @@ describe("router", () => {
       await routerMock.push({ name: RouteNames.Home });
 
       expect(routerMock.currentRoute.value.name).toBe(RouteNames.Home);
+    });
+  });
+
+  describe("路由切换进度条路由守卫", () => {
+    it("切换路由之前开启进度条,切换路由之后关闭进度条", async () => {
+      // mock
+      vi.spyOn(progress, "start");
+      vi.spyOn(progress, "done");
+      const routerMock = setupRouterMock();
+
+      await routerMock.push({ name: RouteNames.Login });
+      expect(progress.start).toBeCalled();
+      expect(progress.done).toBeCalled();
     });
   });
 });

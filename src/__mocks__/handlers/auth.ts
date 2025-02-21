@@ -2,11 +2,13 @@ import { http, HttpResponse } from "msw";
 import { generateMock } from "@anatine/zod-mock";
 import { LoginResponseRules } from "@/validation";
 
-// 模拟登录接口, 直接根据 zod 验证规则来模拟数据
+// 模拟登录接口: 直接根据 zod 验证规则来模拟数据
 export const loginHandler = http.post("/api/auth", () => {
   const mockData = generateMock(LoginResponseRules);
-  mockData.token = "msw-mock-token-string";
   return HttpResponse.json(mockData);
+
+  // 虽然使用验证规则可以很方便的模拟数据, 但是每次数据都
+  // 不一样如果需要一个固定的数据, 请使用手动模拟的方式
   // return HttpResponse.json({
   //   id: 1,
   //   username: "admin",

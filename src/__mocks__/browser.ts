@@ -1,9 +1,5 @@
 import { setupWorker, type SetupWorker } from "msw/browser";
-import * as handleModule from "./handlers";
-import type { RequestHandler, WebSocketHandler } from "msw";
-
-// @ts-ignore
-const handlers: Array<RequestHandler | WebSocketHandler> = Object.keys(handleModule).map((key) => handleModule[key]);
+import { handlers } from "./handlers";
 
 // https://msw.nodejs.cn/docs/api/setup-worker/start/
 const worker: SetupWorker = setupWorker(...handlers);

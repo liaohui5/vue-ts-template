@@ -21,8 +21,7 @@ export function useGoto(): Goto {
    * redirect(RouteNames.Login);
    */
   function redirect(RouteName: RouteNames) {
-    const router = getRouterInstance();
-    router?.replace({ name: RouteName });
+    getRouterInstance()?.replace({ name: RouteName });
   }
 
   const redirectToLogin = () => redirect(RouteNames.Login);

@@ -1,15 +1,11 @@
 import { setupServer, type SetupServer } from "msw/node";
-import * as handleModule from "./handlers";
-import type { RequestHandler, WebSocketHandler } from "msw";
-
-// @ts-ignore
-const handlers: Array<RequestHandler | WebSocketHandler> = Object.keys(handleModule).map((key) => handleModule[key]);
+import { handlers } from "./handlers";
 
 // https://msw.nodejs.cn/docs/api/setup-worker/start/
 const server: SetupServer = setupServer(...handlers);
 export const startMockServer = () => {
   return server.listen({
-    onUnhandledRequest: "bypass",
+    onUnhandledRequest: "bypass", // 忽略未处理的请求
   });
 };
 

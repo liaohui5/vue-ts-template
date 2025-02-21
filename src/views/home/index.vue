@@ -3,20 +3,15 @@
     <h2>首页</h2>
     <p>用户名: {{ authUser.nickname }}</p>
     <img :src="authUser.avatar_url" />
-    <button @click="handleLogout" class="btn btn-primary text-white">退出登录</button>
+    <el-button @click="logout" type="primary">退出登录</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useGoto } from "@/hooks";
 import { useAuth } from "@/store";
 import { storeToRefs } from "pinia";
 
 const store = useAuth();
 const { authUser } = storeToRefs(store);
-
-function handleLogout() {
-  store.logout();
-  useGoto().redirectToLogin();
-}
+const { logout } = store;
 </script>

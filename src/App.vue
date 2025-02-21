@@ -15,5 +15,10 @@ import { useRoute } from "vue-router";
 import Layout from "@/Layout.vue";
 
 const route = useRoute();
-const useLayout = computed(() => Boolean(route.meta.useLayout));
+const useLayout = computed(() => {
+  if (route.meta.useLayout === false) {
+    return false;
+  }
+  return true; // default is true
+});
 </script>

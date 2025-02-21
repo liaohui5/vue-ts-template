@@ -4,7 +4,8 @@ import { http, REQUEST_ID_KEY, TOKEN_HEADER_KEY } from "@/tools/http";
 import { saveToken } from "@/tools/token";
 import * as handler from "@/tools/http/httpErrorHandler";
 
-// 专门用于单元测试的 axios 的 adapater
+// 专门用于单元测试的 axios 的 adapater, 可以理解为一个不
+// 会真正发送请求, 但是数据的处理流程和 axios一模一样的类
 // https://github.com/ctimmerm/axios-mock-adapter
 const mockHttp = new AxiosMockAdapter(http);
 
@@ -59,7 +60,7 @@ describe("测试请求客户端", () => {
     expect(data).toEqual(body);
   });
 
-  it("当响应 status 不为 200 的时候, 应该调用 httpErrorHander ", async () => {
+  it("当响应状态码不等于 200 的时候, 应该调用 httpErrorHander ", async () => {
     const spyFunc = vi.spyOn(handler, "httpErrorHandler");
 
     mockReply(500);

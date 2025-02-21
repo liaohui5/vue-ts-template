@@ -1,4 +1,4 @@
-import { useGoto } from "@/hooks/goto";
+import { useGoto } from "@/hooks/useGoto";
 import { RouteNames } from "@/router";
 import { mountSetupComponentWithRouterMock } from "@/__tests__/helpers";
 import { describe, expect, it } from "vitest";

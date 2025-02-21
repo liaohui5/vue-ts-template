@@ -1,31 +1,83 @@
+import type { LoginFormType, LoginResponseType } from "@/types";
+import { LoginFormRules, validate, flatErrors } from "@/validation";
 import { defineStore } from "pinia";
-import { deleteToken, saveToken } from "@/tools/token";
+import { computed, reactive, ref, toRaw } from "vue";
+import { showErrMsg } from "@/tools/notify";
+import { deleteToken, saveToken } from "@/tools";
 import { useLocalStorage } from "@vueuse/core";
 import * as api from "@/api";
-import type { LoginFrom, LoginResponseView } from "@/types/auth";
+import { useGoto } from "@/hooks";
 
 export const AUTH_USER_KEY = "__auth_user__";
 export const useAuth = defineStore("auth", () => {
-  // 已经登录的用户信息
-  const defaultUser = { token: "" } as LoginResponseView;
-  const authUser = useLocalStorage(AUTH_USER_KEY, defaultUser);
+  const goto = useGoto();
 
-  // 登录
-  async function login(data: LoginFrom) {
-    const res = await api.login(data);
-    saveToken(res.token);
-    authUser.value = res;
+  const loginForm = reactive<LoginFormType>({
+    email: "",
+    password: "",
+  });
+  function resetLoginForm() {
+    loginForm.email = "";
+    loginForm.password = "";
   }
 
-  // 注销
-  function logout() {
-    authUser.value = defaultUser;
+  const validateErrMsg = reactive<LoginFormType>({
+    email: "",
+    password: "",
+  });
+  async function validateLoginForm() {
+    const formData = toRaw(loginForm);
+    const results = await validate(formData, LoginFormRules);
+    if (results.passed) {
+      validateErrMsg.email = "";
+      validateErrMsg.password = "";
+      return results;
+    }
+    const err = flatErrors<LoginFormType>(results.errors);
+    validateErrMsg.email = err.email || "";
+    validateErrMsg.password = err.password || "";
+    return results;
+  }
+
+  const isLoading = ref(false);
+  const authUser = useLocalStorage<LoginResponseType>(AUTH_USER_KEY, {} as LoginResponseType);
+  const isLogin = computed<boolean>(() => Boolean(authUser.value.id));
+  async function submitLoginForm() {
+    isLoading.value = true;
+    const results = await validateLoginForm();
+    if (!results.passed) {
+      isLoading.value = false;
+      return;
+    }
+
+    try {
+      const res = await api.login(results.data);
+      authUser.value = res;
+      saveToken(authUser.value.token);
+      goto.redirectToHome();
+      resetLoginForm();
+    } catch (e) {
+      showErrMsg("登录失败,请稍后重试");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  async function logout() {
     deleteToken();
+    authUser.value = {} as LoginResponseType;
+    goto.redirectToLogin();
   }
 
   return {
+    isLoading,
+    isLogin,
     authUser,
+    loginForm,
+    validateErrMsg,
     logout,
-    login,
+    resetLoginForm,
+    submitLoginForm,
+    validateLoginForm,
   };
 });

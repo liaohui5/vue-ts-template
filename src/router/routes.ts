@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
-import Home from "@/views/Home.vue";
-import Login from "@/views/Login.vue";
+import Home from "@/views/home/index.vue";
+import Login from "@/views/login/index.vue";
 
 export enum RouteNames {
   Login = "login",
@@ -12,9 +12,6 @@ export const routes: RouteRecordRaw[] = [
     path: "/",
     name: RouteNames.Home,
     component: Home,
-    meta: {
-      useLayout: true,
-    },
   },
   {
     path: "/login",
@@ -22,6 +19,7 @@ export const routes: RouteRecordRaw[] = [
     component: Login,
     meta: {
       isPublic: true,
+      useLayout: false,
     },
   },
 ];
