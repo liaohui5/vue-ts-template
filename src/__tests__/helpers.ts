@@ -21,7 +21,7 @@ import {
 export function setupRouterMock(): RouterMock {
   const options: RouterMockOptions = {
     routes,
-    useRealNavigation: true, // 使用真实的导航会调用路由守卫, 如果为假则不会调用路由守卫
+    useRealNavigation: true, // 使用真实的导航会调用路由守卫, 如果为 false 则不会调用路由守卫
   };
 
   const routerMock = createRouterMock({
@@ -69,9 +69,7 @@ export function mountSetupComponentWithRouterMock(setup: () => void) {
   };
 }
 
-/**
- * 重置 localStorage 和 sessionStorage 状态
- **/
+// 重置 localStorage 和 sessionStorage 状态
 export function resetStorage() {
   localStorage.clear();
   sessionStorage.clear();
