@@ -9,6 +9,8 @@ import {
   type RouterMock,
   type RouterMockOptions,
 } from "vue-router-mock";
+import { createHttpClient, type RequestInterceptor, type ResponseInterceptor } from "@/tools/http";
+import AxiosMockAdapter from "axios-mock-adapter";
 
 /**
  * 设置路由模拟器(RouterMock 是专门用于测试 vue-router 的库)
@@ -73,4 +75,46 @@ export function mountSetupComponentWithRouterMock(setup: () => void) {
 export function resetStorage() {
   localStorage.clear();
   sessionStorage.clear();
+}
+
+// 初始化模拟 http 及一些助手函数
+export function initMockHttp(
+  reqInterceptor?: RequestInterceptor<unknown>,
+  resInterceptor?: ResponseInterceptor<unknown>
+) {
+  const reqInterceptors: Array<RequestInterceptor<unknown>> = [];
+  const resInterceptors: Array<ResponseInterceptor<unknown>> = [];
+  if (reqInterceptor) {
+    reqInterceptors.push(reqInterceptor);
+  }
+
+  if (resInterceptor) {
+    resInterceptors.push(resInterceptor);
+  }
+
+  const http = createHttpClient({}, reqInterceptors, resInterceptors);
+  const mockServer = new AxiosMockAdapter(http);
+  mockServer.reset();
+
+  // 模拟请求的响应
+  function reply<T extends object>(body?: T, headers?: T, status: number = 200) {
+    mockServer.onGet("/mock-request").reply(status, body, headers || {});
+  }
+
+  // 模拟发送请求
+  function send(opts = {}) {
+    return http.get("/mock-request", opts);
+  }
+
+  // 获取最后一个请求的信息
+  function getLastRequest() {
+    const requests = mockServer.history.get;
+    return requests[requests.length - 1];
+  }
+
+  return {
+    reply,
+    send,
+    getLastRequest,
+  };
 }

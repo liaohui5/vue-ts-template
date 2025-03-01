@@ -3,7 +3,7 @@ import { LoginFormRules, validate, flatErrors } from "@/validation";
 import { defineStore } from "pinia";
 import { computed, reactive, ref, toRaw } from "vue";
 import { showErrMsg } from "@/tools/notify";
-import { deleteToken, saveToken } from "@/tools";
+import { deleteToken, infoLog, saveToken } from "@/tools";
 import { useLocalStorage } from "@vueuse/core";
 import * as api from "@/api";
 import { useGoto } from "@/hooks";
@@ -58,6 +58,7 @@ export const useAuth = defineStore("auth", () => {
       resetLoginForm();
     } catch (e) {
       showErrMsg("登录失败,请稍后重试");
+      infoLog("登录失败,请稍后重试:", e);
     } finally {
       isLoading.value = false;
     }

@@ -1,9 +1,11 @@
-import type { ZodTypeAny } from "zod";
+import type { ZodAny, ZodObject } from "zod";
 
 declare module "axios" {
   interface AxiosRequestConfig {
-    reqDataZod?: ZodTypeAny;
-    reqParamsZod?: ZodTypeAny;
-    responseZod?: ZodTypeAny;
+    reqHeaderZod?: ZodObject;
+    reqDataZod?: ZodObject;
+    reqParamsZod?: ZodObject;
+    resHeaderZod?: ZodObject;
+    resBodyZod?: ZodAny;
   }
 }

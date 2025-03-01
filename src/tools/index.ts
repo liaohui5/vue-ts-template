@@ -9,9 +9,18 @@ export * as notify from "./notify";
  * 仅在开发环境下输出日志信息
  * @param {...*} args - 要打印的参数列表
  */
-export const log = debug;
-export function debug(...args: Array<unknown>) {
+export function infoLog(...args: Array<unknown>) {
   if (import.meta.env.DEV) {
-    console.log(...args);
+    console.info(...args);
+  }
+}
+
+/**
+ * 仅在开发环境下输出日志信息
+ * @param {...*} args - 要打印的参数列表
+ */
+export function errorLog(...args: Array<unknown>) {
+  if (import.meta.env.DEV) {
+    console.error(...args);
   }
 }
