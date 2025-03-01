@@ -19,7 +19,7 @@ export const routes: RouteRecordRaw[] = [
     component: Login,
     meta: {
       isPublic: true,
-      useLayout: false,
+      withoutLayout: true,
     },
   },
 ];

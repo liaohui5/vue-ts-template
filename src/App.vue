@@ -1,11 +1,11 @@
 <template>
-  <template v-if="useLayout">
+  <template v-if="withoutLayout">
+    <router-view />
+  </template>
+  <template v-else>
     <Layout>
       <router-view />
     </Layout>
-  </template>
-  <template v-else>
-    <router-view />
   </template>
 </template>
 
@@ -15,10 +15,5 @@ import { useRoute } from "vue-router";
 import Layout from "@/Layout.vue";
 
 const route = useRoute();
-const useLayout = computed(() => {
-  if (route.meta.useLayout === false) {
-    return false;
-  }
-  return true; // default is true
-});
+const withoutLayout = computed(() => route.meta.withoutLayout);
 </script>
