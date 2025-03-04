@@ -55,8 +55,10 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@sentry/cli",
       "esbuild",
-      "msw"
+      "msw",
+      "vue-demi"
     ]
   }
 }

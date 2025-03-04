@@ -8,8 +8,18 @@ import { z } from "zod";
 // 3. 使用验证后的 env, 可以设置默认值, 即使没有 .env 文件也不会 undefined 导致报错
 const envRules = z.object({
   VITE_APP_API_BASE_URL: z.string().default("/"),
-  VITE_APP_MOCK_API_ENABLED: z.enum(["true", "false"]).default("false").transform(Boolean),
-  VITE_APP_API_VLIDATION_ENABLED: z.enum(["true", "false"]).default("false").transform(Boolean),
+
+  // 是否开启 mock 数据
+  VITE_APP_MOCK_API_ENABLED: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((v) => JSON.parse(v)),
+
+  // 是否允许验证响应参数
+  VITE_APP_API_VLIDATION_ENABLED: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((v) => JSON.parse(v)),
 });
 
 export const env = envRules.parse(import.meta.env);
