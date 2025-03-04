@@ -2,8 +2,8 @@ import axios from "axios";
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import type { ZodTypeAny } from "zod";
 import { env, errorLog } from "@/tools";
-import { genRequestId, withToken, reqValidate } from "./interceptors/request";
-import { unwrapBody, resValidate } from "./interceptors/response";
+import { genRequestId, withToken, requestValidate } from "./interceptors/request";
+import { unwrapBody, responseValidate } from "./interceptors/response";
 
 // 直接导出
 export * from "./interceptors/request";
@@ -71,6 +71,6 @@ export const http = createHttpClient(
       "Content-Type": "application/json",
     },
   },
-  [reqValidate, genRequestId, withToken] as Array<RequestInterceptor<unknown>>,
-  [resValidate, unwrapBody] as Array<ResponseInterceptor<unknown>>
+  [requestValidate, genRequestId, withToken] as Array<RequestInterceptor<unknown>>,
+  [responseValidate, unwrapBody] as Array<ResponseInterceptor<unknown>>
 );

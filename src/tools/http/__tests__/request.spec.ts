@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { z } from "zod";
-import { genRequestId, REQUEST_ID_KEY, reqValidate, TOKEN_HEADER_KEY, withToken } from "@/tools/http";
+import { genRequestId, REQUEST_ID_KEY, requestValidate, TOKEN_HEADER_KEY, withToken } from "@/tools/http";
 import { deleteToken, saveToken } from "@/tools/token";
 import { initMockHttp } from "@/__tests__/helpers";
 
@@ -51,7 +51,7 @@ describe("请求拦截器", () => {
 
   describe("请求数据校验", () => {
     it(`应该校验 axios 请求对象 params 参数, 不通过校验就抛出异常`, async () => {
-      const { reply, send, getLastRequest } = initMockHttp(reqValidate);
+      const { reply, send, getLastRequest } = initMockHttp(requestValidate);
       reply();
 
       function sendReqFunc(data: object) {
@@ -75,7 +75,7 @@ describe("请求拦截器", () => {
     });
 
     it("应该校验 axios 请求对象 headers 参数, 不通过校验规则就抛出异常", async () => {
-      const { reply, send, getLastRequest } = initMockHttp(reqValidate);
+      const { reply, send, getLastRequest } = initMockHttp(requestValidate);
       reply();
 
       function sendReqFunc(data: object) {
@@ -101,7 +101,7 @@ describe("请求拦截器", () => {
     });
 
     it("应该校验 axios 请求对象 data 参数, 不通过校验规则就抛出异常", async () => {
-      const { reply, send, getLastRequest } = initMockHttp(reqValidate);
+      const { reply, send, getLastRequest } = initMockHttp(requestValidate);
       reply();
 
       function sendReqFunc(data: object) {

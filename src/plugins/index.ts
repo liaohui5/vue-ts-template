@@ -1,2 +1,2 @@
 export * from "./element-plus";
-export * from "./mock-service-worker";
+export * from "./msw";

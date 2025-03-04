@@ -1,12 +1,12 @@
 import { initMockHttp } from "@/__tests__/helpers";
-import { resValidate, unwrapBody } from "@/tools/http";
+import { responseValidate, unwrapBody } from "@/tools/http";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
 describe("响应拦截器", () => {
   describe("响应数据校验", () => {
     it("应该校验响应 headers 数据, 校验不通过应该抛出异常", async () => {
-      const { reply, send } = initMockHttp(undefined, resValidate);
+      const { reply, send } = initMockHttp(undefined, responseValidate);
 
       reply();
       function sendReq() {
@@ -24,7 +24,7 @@ describe("响应拦截器", () => {
     });
 
     it("应该校验响应 data 数据, 校验不通过应该抛出异常", async () => {
-      const { reply, send } = initMockHttp(undefined, resValidate);
+      const { reply, send } = initMockHttp(undefined, responseValidate);
       reply();
 
       function sendReq() {

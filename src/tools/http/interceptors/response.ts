@@ -16,7 +16,7 @@ export const unwrapBody = (res: AxiosResponse<unknown>) => {
 // 校验响应内容, 建议只在开发模式下启用校验, 方便快速调试, 生产模式下
 // 不进行校验, 因为生产模式下, 响应的数据已经返回了, 所以即使校验了数据
 // 也并没有什么实际作用
-export function resValidate(response: AxiosResponse<unknown>) {
+export function responseValidate(response: AxiosResponse<unknown>) {
   if (!env.VITE_APP_API_VLIDATION_ENABLED) {
     return response;
   }

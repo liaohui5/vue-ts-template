@@ -1,6 +1,7 @@
 import { encryptPassword, addRenameFileds } from "@/api/transformers/auth";
-import type { LoginResponseType } from "@/types";
+import { config } from "@/tools";
 import { describe, it, expect } from "vitest";
+import type { LoginResponseType } from "@/types";
 
 describe("transformers auth", () => {
   it("应该使用md5算法的结果密文传输数据", () => {
@@ -18,7 +19,7 @@ describe("transformers auth", () => {
       username: "mock-username",
     };
     const result = addRenameFileds(data as LoginResponseType);
-    expect(result.avatar_url).toBe("mock-avatar-url");
+    expect(result.avatarUrl).toBe(config.defaultAvatar);
     expect(result.nickname).toBe("mock-username");
   });
 });

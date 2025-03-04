@@ -2,7 +2,7 @@
   <div>
     <h2>首页</h2>
     <p>用户名: {{ authUser.nickname }}</p>
-    <img :src="authUser.avatar_url" />
+    <img :src="authUser.avatarUrl" />
     <el-button @click="logout" type="primary">退出登录</el-button>
   </div>
 </template>

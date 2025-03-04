@@ -5,17 +5,14 @@ import { setupElementPlus, setupMSW } from "@/plugins";
 import App from "./App.vue";
 import "./style.css";
 
-async function setupApp() {
+function bootstrap() {
+  setupMSW();
+
   const app = createApp(App);
   setupElementPlus(app);
   setupStore(app);
-  await setupRouter(app);
+  setupRouter(app);
   app.mount("#app");
 }
 
-async function run() {
-  await setupMSW();
-  await setupApp();
-}
-
-await run();
+bootstrap();

@@ -13,7 +13,7 @@ export function genRequestId(config: AxiosRequestConfig) {
 }
 
 // 验证请求参数是否有误
-export function reqValidate(config: AxiosRequestConfig) {
+export function requestValidate(config: AxiosRequestConfig) {
   const { url, method, reqHeaderZod, headers, reqParamsZod, params, reqDataZod, data } = config;
   const items = [
     {

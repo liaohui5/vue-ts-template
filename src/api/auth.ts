@@ -1,15 +1,15 @@
 import { http } from "@/tools/http";
 import { encryptPassword, addRenameFileds } from "./transformers/auth";
-import { type LoginFormType, type LoginResponseType } from "@/types";
 import { LoginFormRules, LoginResponseRules } from "@/validation";
+import type { LoginFormType, LoginResponseType, LoginResponseVO } from "@/types";
 
 /**
  * @description 登录接口
  * POST /api/auth
  * @param {Object} data -  data
- * @returns {Promise<AxiosResponse<LoginResponseType>>}
+ * @returns {Promise<AxiosResponse<LoginResponseVO>>}
  */
-export const login = async (data: LoginFormType): Promise<LoginResponseType> => {
+export const login = async (data: LoginFormType): Promise<LoginResponseVO> => {
   const response = await http.request({
     url: "/api/auth",
     method: "POST",

@@ -4,11 +4,18 @@ import vue from "@vitejs/plugin-vue";
 
 // https://vite.dev/config/
 export default defineConfig({
-  // plugins: [vue(), inspect()], // 会影响单元测试
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    // inspect(), 会影响单元测试
+  ],
+
   resolve: {
     alias: {
       "@": "/src/",
     },
+  },
+
+  build: {
+    target: "esnext",
   },
 });

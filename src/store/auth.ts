@@ -1,4 +1,4 @@
-import type { LoginFormType, LoginResponseType } from "@/types";
+import type { LoginFormType, LoginResponseVO } from "@/types";
 import { LoginFormRules, validate, flatErrors } from "@/validation";
 import { defineStore } from "pinia";
 import { computed, reactive, ref, toRaw } from "vue";
@@ -40,7 +40,7 @@ export const useAuth = defineStore("auth", () => {
   }
 
   const isLoading = ref(false);
-  const authUser = useLocalStorage<LoginResponseType>(AUTH_USER_KEY, {} as LoginResponseType);
+  const authUser = useLocalStorage<LoginResponseVO>(AUTH_USER_KEY, {} as LoginResponseVO);
   const isLogin = computed<boolean>(() => Boolean(authUser.value.id));
   async function submitLoginForm() {
     isLoading.value = true;
@@ -66,7 +66,7 @@ export const useAuth = defineStore("auth", () => {
 
   async function logout() {
     deleteToken();
-    authUser.value = {} as LoginResponseType;
+    authUser.value = {} as LoginResponseVO;
     goto.redirectToLogin();
   }
 
