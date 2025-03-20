@@ -1,9 +1,10 @@
 <template>
-  <div class="container mx-auto">
-    <header class="header bg-black text-white">header</header>
+  <div class="w-screen h-screen overflow-x-hidden pt-[50px]">
+    <NavBar />
     <slot />
-    <footer class="footer bg-black text-white">footer</footer>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import NavBar from "@/components/NavBar/index.vue";
+</script>

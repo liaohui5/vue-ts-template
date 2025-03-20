@@ -1,17 +1,96 @@
 @import "tailwindcss";
 
 @theme {
+  /* color */
   --color-white: var(--el-color-white);
   --color-black: var(--el-color-black);
   --color-primary: var(--el-color-primary);
+  --color-primary-light-3: var(--el-color-primary-light-3);
+  --color-primary-light-5: var(--el-color-primary-light-5);
+  --color-primary-light-7: var(--el-color-primary-light-7);
+  --color-primary-light-8: var(--el-color-primary-light-8);
+  --color-primary-light-9: var(--el-color-primary-light-9);
+  --color-primary-dark-2: var(--el-color-primary-dark-2);
   --color-success: var(--el-color-success);
+  --color-success-light-3: var(--el-color-success-light-3);
+  --color-success-light-5: var(--el-color-success-light-5);
+  --color-success-light-7: var(--el-color-success-light-7);
+  --color-success-light-8: var(--el-color-success-light-8);
+  --color-success-light-9: var(--el-color-success-light-9);
+  --color-success-dark-2: var(--el-color-success-dark-2);
   --color-warning: var(--el-color-warning);
+  --color-warning-light-3: var(--el-color-warning-light-3);
+  --color-warning-light-5: var(--el-color-warning-light-5);
+  --color-warning-light-7: var(--el-color-warning-light-7);
+  --color-warning-light-8: var(--el-color-warning-light-8);
+  --color-warning-light-9: var(--el-color-warning-light-9);
+  --color-warning-dark-2: var(--el-color-warning-dark-2);
   --color-danger: var(--el-color-danger);
+  --color-danger-light-3: var(--el-color-danger-light-3);
+  --color-danger-light-5: var(--el-color-danger-light-5);
+  --color-danger-light-7: var(--el-color-danger-light-7);
+  --color-danger-light-8: var(--el-color-danger-light-8);
+  --color-danger-light-9: var(--el-color-danger-light-9);
+  --color-danger-dark-2: var(--el-color-danger-dark-2);
   --color-error: var(--el-color-error);
+  --color-error-light-3: var(--el-color-error-light-3);
+  --color-error-light-5: var(--el-color-error-light-5);
+  --color-error-light-7: var(--el-color-error-light-7);
+  --color-error-light-8: var(--el-color-error-light-8);
+  --color-error-light-9: var(--el-color-error-light-9);
+  --color-error-dark-2: var(--el-color-error-dark-2);
   --color-info: var(--el-color-info);
-  --padding-card: var(--el-card-padding);
+  --color-info-light-3: var(--el-color-info-light-3);
+  --color-info-light-5: var(--el-color-info-light-5);
+  --color-info-light-7: var(--el-color-info-light-7);
+  --color-info-light-8: var(--el-color-info-light-8);
+  --color-info-light-9: var(--el-color-info-light-9);
+  --color-info-dark-2: var(--el-color-info-dark-2);
+  --color-bg: var(--el-bg-color);
+  --color-bg-page: var(--el-bg-color-page);
+  --color-bg-overlay: var(--el-bg-color-overlay);
+  --color-text-primary: var(--el-text-color-primary);
+  --color-text-regular: var(--el-text-color-regular);
+  --color-text-secondary: var(--el-text-color-secondary);
+  --color-text-placeholder: var(--el-text-color-placeholder);
+  --color-text-disabled: var(--el-text-color-disabled);
+  --color-border: var(--el-border-color);
+  --color-border-light: var(--el-border-color-light);
+  --color-border-lighter: var(--el-border-color-lighter);
+  --color-border-extra-light: var(--el-border-color-extra-light);
+  --color-border-dark: var(--el-border-color-dark);
+  --color-border-darker: var(--el-border-color-darker);
+  --color-fill: var(--el-fill-color);
+  --color-fill-light: var(--el-fill-color-light);
+  --color-fill-lighter: var(--el-fill-color-lighter);
+  --color-fill-extra-light: var(--el-fill-color-extra-light);
+  --color-fill-dark: var(--el-fill-color-dark);
+  --color-fill-darker: var(--el-fill-color-darker);
+  --color-fill-blank: var(--el-fill-color-blank);
+  --color-disabled-bg: var(--el-disabled-bg-color);
+  --color-disabled-text: var(--el-disabled-text-color);
+  --color-disabled-border: var(--el-disabled-border-color);
+  --color-overlay: var(--el-overlay-color);
+  --color-overlay-light: var(--el-overlay-color-light);
+  --color-overlay-lighter: var(--el-overlay-color-lighter);
+  --color-mask: var(--el-mask-color);
+  --color-mask-extra-light: var(--el-mask-color-extra-light);
+  --color-border-hover: var(--el-border-color-hover);
+
+  /* font-size */
+  --text-xl: var(--el-font-size-extra-large);
+  --text-lg: var(--el-font-size-large);
+  --text-base: var(--el-font-size-medium);
+  --text-sm: var(--el-font-size-base);
+  --text-xs: var(--el-font-size-extra-small);
+
+  /* radius */
+  --radius-xs: var(--el-border-radius-small);
+  --radius-sm: var(--el-border-radius-base);
+  --radius-round: var(--el-border-radius-round);
 }
 
+/* compact tailwindcss 3.x */
 @layer base {
   *,
   ::after,
