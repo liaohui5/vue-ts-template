@@ -24,10 +24,10 @@ export type ResponseInterceptor<T> = (response: AxiosResponse<T>) => AxiosRespon
  * @param resInterceptors - 响应拦截器数组，用于在响应接收后执行逻辑
  * @returns 返回一个配置好拦截器的Axios实例
  */
-export function createHttpClient<T>(
+export function createHttpClient(
   baseConfig: AxiosRequestConfig,
   reqInterceptors: Array<RequestInterceptor<unknown>> = [],
-  resInterceptors: Array<ResponseInterceptor<T>> = []
+  resInterceptors: Array<ResponseInterceptor<unknown>> = [],
 ): AxiosInstance {
   const client = axios.create(baseConfig);
 
@@ -62,6 +62,17 @@ export function validateIO<T extends object>(label: string, rules: ZodTypeAny, d
   }
 }
 
+// 只有 .env 中的 VITE_APP_DEBUG_MODE_ENABLED 为 true 的时候才
+// 校验响应内容, 建议只在开发模式下启用校验, 方便快速调试, 生产模式下
+// 不进行校验, 因为生产模式下, 响应的数据已经返回了, 所以 即使数据不能
+// 通过校验, 也并没有什么实际作用
+const resInterceptors = [unwrapBody] as Array<ResponseInterceptor<unknown>>;
+if (env.VITE_APP_API_VLIDATION_ENABLED) {
+  resInterceptors.push(responseValidate);
+}
+
+const reqInterceptors = [requestValidate, genRequestId, withToken] as Array<RequestInterceptor<unknown>>;
+
 // 默认的 http 实例
 export const http = createHttpClient(
   {
@@ -71,6 +82,6 @@ export const http = createHttpClient(
       "Content-Type": "application/json",
     },
   },
-  [requestValidate, genRequestId, withToken] as Array<RequestInterceptor<unknown>>,
-  [responseValidate, unwrapBody] as Array<ResponseInterceptor<unknown>>
+  reqInterceptors,
+  resInterceptors,
 );
