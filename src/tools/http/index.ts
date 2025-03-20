@@ -62,18 +62,22 @@ export function validateIO<T extends object>(label: string, rules: ZodTypeAny, d
   }
 }
 
-// 只有 .env 中的 VITE_APP_DEBUG_MODE_ENABLED 为 true 的时候才
-// 校验响应内容, 建议只在开发模式下启用校验, 方便快速调试, 生产模式下
-// 不进行校验, 因为生产模式下, 响应的数据已经返回了, 所以 即使数据不能
-// 通过校验, 也并没有什么实际作用
-const resInterceptors = [unwrapBody] as Array<ResponseInterceptor<unknown>>;
+/////////////////////////////////////////////////////////////////
+// 验证响应数据
+// 只有 .env 中的 VITE_APP_API_VLIDATION_ENABLED 为 true 的时候才
+// 校验响应内容, 建议只在开发模式下启用校验, 方便快速调试响应值是否符合规则
+// 生产模式下不进行校验, 因为生产模式下, 响应的数据已经返回了,
+// 所以即使校验了数据, 也并没有什么实际作用
+/////////////////////////////////////////////////////////////////
+const reqInterceptors = [requestValidate, genRequestId, withToken];
+const resInterceptors = [unwrapBody];
 if (env.VITE_APP_API_VLIDATION_ENABLED) {
-  resInterceptors.push(responseValidate);
+  resInterceptors.unshift(responseValidate);
 }
 
-const reqInterceptors = [requestValidate, genRequestId, withToken] as Array<RequestInterceptor<unknown>>;
-
+/////////////////////////////////////////////////////////////////
 // 默认的 http 实例
+/////////////////////////////////////////////////////////////////
 export const http = createHttpClient(
   {
     baseURL: env.VITE_APP_API_BASE_URL,
@@ -82,6 +86,6 @@ export const http = createHttpClient(
       "Content-Type": "application/json",
     },
   },
-  reqInterceptors,
-  resInterceptors,
+  reqInterceptors as Array<RequestInterceptor<unknown>>,
+  resInterceptors as Array<ResponseInterceptor<unknown>>,
 );

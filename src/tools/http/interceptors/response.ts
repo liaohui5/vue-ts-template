@@ -11,7 +11,7 @@ export const unwrapBody = (res: AxiosResponse<unknown>) => {
   return body;
 };
 
-// 验证响应数据
+// 校验响应数据
 export function responseValidate(response: AxiosResponse<unknown>) {
   const { headers, data } = response;
   const { url, method, resHeaderZod, resBodyZod } = response.config;
