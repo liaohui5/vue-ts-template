@@ -13,7 +13,7 @@
           <p v-show="validateErrMsg.email" class="text-error text-sm">{{ validateErrMsg.email }}</p>
         </div>
 
-        <div class="pt-card">
+        <div class="pt-4">
           <el-input v-model="loginForm.password" size="large" type="password" placeholder="密码" />
           <p v-show="validateErrMsg.password" class="text-error text-sm">{{ validateErrMsg.password }}</p>
         </div>
