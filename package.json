@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --port=8080",
     "test": "vitest",
-    "test:run": "vitest run",
+    "test:unit": "vitest run",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "prepare": "husky"
