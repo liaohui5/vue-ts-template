@@ -1,5 +1,5 @@
 import { RouteNames } from "./routes";
-import { progress, hasToken } from "@/tools";
+import { progress, tokenStore } from "@/tools";
 import type { Router } from "vue-router";
 
 /**
@@ -42,7 +42,7 @@ export function setupProgressGuard(router: Router) {
  */
 export function setupAuthGuard(router: Router) {
   router.beforeEach((to, _form, next) => {
-    if (to.meta.isPublic || hasToken()) {
+    if (to.meta.isPublic || tokenStore.hasToken()) {
       return next();
     }
     return next({ name: RouteNames.Login });
