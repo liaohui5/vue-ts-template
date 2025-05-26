@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=8080",
-    "test": "vitest",
+    "test": "vitest --silent",
     "test:unit": "vitest run",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",

@@ -3,7 +3,7 @@ import { LoginFormRules, validate, flatErrors } from "@/validation";
 import { defineStore } from "pinia";
 import { computed, reactive, ref, toRaw } from "vue";
 import { showErrMsg } from "@/tools/notify";
-import { deleteToken, infoLog, saveToken } from "@/tools";
+import { tokenStore, infoLog } from "@/tools";
 import { useLocalStorage } from "@vueuse/core";
 import * as api from "@/api";
 import { useGoto } from "@/hooks";
@@ -53,7 +53,7 @@ export const useAuth = defineStore("auth", () => {
     try {
       const res = await api.login(results.data);
       authUser.value = res;
-      saveToken(authUser.value.token);
+      tokenStore.saveToken(authUser.value.token);
       goto.redirectToHome();
       resetLoginForm();
     } catch (e) {
@@ -65,7 +65,7 @@ export const useAuth = defineStore("auth", () => {
   }
 
   async function logout() {
-    deleteToken();
+    tokenStore.deleteToken();
     authUser.value = {} as LoginResponseVO;
     goto.redirectToLogin();
   }

@@ -44,7 +44,7 @@ describe("auth store", () => {
     expect(store.isLoading).toBe(false);
   });
 
-  it.only("登录成功后,应该设置已经登录的用户数据", async () => {
+  it("登录成功后,应该设置已经登录的用户数据", async () => {
     const store = useAuth();
 
     expect(store.isLogin).toBe(false);
