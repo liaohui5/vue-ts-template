@@ -1,11 +1,11 @@
 import { http, HttpResponse } from "msw";
-import { generateMock } from "@anatine/zod-mock";
 import { config, useMockApi } from "@/tools";
 import { LoginResponseRules } from "@/validation/auth.rule";
+import { zocker } from "zocker";
 
 // 模拟登录接口: 直接根据 zod 验证规则来模拟数据
 export const loginHandler = http.post(useMockApi("/api/auth"), () => {
-  const mockData = generateMock(LoginResponseRules);
+  const mockData = zocker(LoginResponseRules).generate();
   mockData.avatar = config.defaultAvatar;
   return HttpResponse.json(mockData);
 

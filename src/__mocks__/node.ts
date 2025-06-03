@@ -1,9 +1,5 @@
 import { setupServer, type SetupServer } from "msw/node";
-
-const handlerModules = import.meta.glob("./handlers/**.ts", { eager: true });
-
-/* @ts-ignore */
-export const handlers = Object.values(handlerModules).map(Object.values).flat();
+import { handlers } from "./handlers";
 
 // for node.js env
 // https://msw.nodejs.cn/docs/api/setup-worker/start/

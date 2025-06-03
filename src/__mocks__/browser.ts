@@ -1,5 +1,5 @@
 import { setupWorker, type SetupWorker } from "msw/browser";
-import { handlers } from "./index";
+import { handlers } from "./handlers";
 
 // for browser env
 // https://msw.nodejs.cn/docs/api/setup-worker/start/

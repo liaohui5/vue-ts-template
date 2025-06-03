@@ -42,12 +42,9 @@ importers:
         specifier: ^4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.8.2))
       zod:
-        specifier: ^3.24.2
-        version: 3.24.2
+        specifier: ^3.25.49
+        version: 3.25.49
     devDependencies:
-      '@anatine/zod-mock':
-        specifier: ^3.13.5
-        version: 3.13.5(@faker-js/faker@9.3.0)(zod@3.24.2)
       '@tailwindcss/postcss':
         specifier: ^4.0.14
         version: 4.0.14
@@ -102,18 +99,15 @@ importers:
       vue-tsc:
         specifier: ^2.2.8
         version: 2.2.8(typescript@5.8.2)
+      zocker:
+        specifier: ^2.0.3
+        version: 2.0.3(zod@3.25.49)
 
 packages:
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
-
-  '@anatine/zod-mock@3.13.5':
-    resolution: {integrity: sha512-N08G3F1tdbvZypIqiTmyUgfiO6QZ7B8WbspnliY/kp/7hmQufFf9ML3tU1o9EWgasKIK9Z31GXLM8ezFnuuKpg==}
-    peerDependencies:
-      '@faker-js/faker': ^7.0.0 || ^8.0.0
-      zod: ^3.21.4
 
   '@babel/helper-string-parser@7.25.9':
     resolution: {integrity: sha512-4A/SCr/2KLd5jrtOMFzaKjVtAei3+2r/NChoBNoZ3EyP/+GlhoaEGoWOZUmFmoITP7zOJyHIMm+DYRd8o3PvHA==}
@@ -300,8 +294,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@faker-js/faker@9.3.0':
-    resolution: {integrity: sha512-r0tJ3ZOkMd9xsu3VRfqlFR6cz0V/jFYRswAIpC+m/DIfAUXq7g8N7wTAlhSANySXYGKzGryfDXwtwsY8TxEIDw==}
+  '@faker-js/faker@9.8.0':
+    resolution: {integrity: sha512-U9wpuSrJC93jZBxx/Qq2wPjCuYISBueyVUGK7qqdmj7r/nxaxwW8AQDCLeRO7wZnjj94sh3p246cAYjUKuqgfg==}
     engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@floating-ui/core@1.6.9':
@@ -1535,18 +1529,17 @@ packages:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
 
-  zod@3.24.2:
-    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+  zocker@2.0.3:
+    resolution: {integrity: sha512-n5QO1Jr84P2Uol/Mse3HiYin+l9TJVS4rqhQrqiAAqO6skIeE8CSDNKhf55HCTCgFVmuVawSOwZ7OvbzDV3p4g==}
+    peerDependencies:
+      zod: ^3.25.3
+
+  zod@3.25.49:
+    resolution: {integrity: sha512-JMMPMy9ZBk3XFEdbM3iL1brx4NUSejd6xr3ELrrGEfGb355gjhiAWtG3K5o+AViV/3ZfkIrCzXsZn6SbLwTR8Q==}
 
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
-
-  '@anatine/zod-mock@3.13.5(@faker-js/faker@9.3.0)(zod@3.24.2)':
-    dependencies:
-      '@faker-js/faker': 9.3.0
-      randexp: 0.5.3
-      zod: 3.24.2
 
   '@babel/helper-string-parser@7.25.9': {}
 
@@ -1655,7 +1648,7 @@ snapshots:
   '@esbuild/win32-x64@0.25.1':
     optional: true
 
-  '@faker-js/faker@9.3.0': {}
+  '@faker-js/faker@9.8.0': {}
 
   '@floating-ui/core@1.6.9':
     dependencies:
@@ -2833,4 +2826,10 @@ snapshots:
 
   yoctocolors-cjs@2.1.2: {}
 
-  zod@3.24.2: {}
+  zocker@2.0.3(zod@3.25.49):
+    dependencies:
+      '@faker-js/faker': 9.8.0
+      randexp: 0.5.3
+      zod: 3.25.49
+
+  zod@3.25.49: {}
