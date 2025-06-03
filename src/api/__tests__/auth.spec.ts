@@ -1,4 +1,4 @@
-import { encryptPassword, addRenameFileds } from "@/api/transformers/auth";
+import { encryptPassword, addRenameFileds } from "@/api/auth";
 import { config } from "@/tools";
 import { describe, it, expect } from "vitest";
 import type { LoginResponseType } from "@/types";

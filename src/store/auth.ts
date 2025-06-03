@@ -3,10 +3,10 @@ import { LoginFormRules, validate, flatErrors } from "@/validation";
 import { defineStore } from "pinia";
 import { computed, reactive, ref, toRaw } from "vue";
 import { showErrMsg } from "@/tools/notify";
-import { tokenStore, infoLog } from "@/tools";
+import { tokenManager, log } from "@/tools";
 import { useLocalStorage } from "@vueuse/core";
-import * as api from "@/api";
-import { useGoto } from "@/hooks";
+import * as api from "@/api/auth";
+import { useGoto } from "@/hooks/useGoto";
 
 export const AUTH_USER_KEY = "__auth_user__";
 export const useAuth = defineStore("auth", () => {
@@ -53,19 +53,19 @@ export const useAuth = defineStore("auth", () => {
     try {
       const res = await api.login(results.data);
       authUser.value = res;
-      tokenStore.saveToken(authUser.value.token);
+      tokenManager.saveToken(authUser.value.token);
       goto.redirectToHome();
       resetLoginForm();
     } catch (e) {
       showErrMsg("登录失败,请稍后重试");
-      infoLog("登录失败,请稍后重试:", e);
+      log("登录失败,请稍后重试:", e);
     } finally {
       isLoading.value = false;
     }
   }
 
   async function logout() {
-    tokenStore.deleteToken();
+    tokenManager.deleteToken();
     authUser.value = {} as LoginResponseVO;
     goto.redirectToLogin();
   }

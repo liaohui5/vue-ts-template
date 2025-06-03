@@ -9,16 +9,16 @@ export * from "lodash-es";
 export * from "./config";
 export * from "./env-vars";
 
-// 重新导出 progress 和 notify 工具
+// 重新导出变量名
 export * as progress from "./progress";
 export * as notify from "./notify";
-export * as tokenStore from "./token";
+export * as tokenManager from "./token-manager";
 
 /**
  * 仅在开发环境下输出日志信息
  * @param {...*} args - 要打印的参数列表
  */
-export function infoLog(...args: Array<unknown>) {
+export function log(...args: Array<unknown>) {
   if (import.meta.env.DEV) {
     console.info(...args);
   }

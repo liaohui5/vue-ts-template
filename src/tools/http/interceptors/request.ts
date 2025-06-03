@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from "axios";
-import { uuid, assign, tokenStore } from "@/tools";
+import { uuid, assign, tokenManager } from "@/tools";
 import { validateIO } from "@/tools/http";
 
 // 给请求添加请求ID,放到 query 参数中
@@ -46,9 +46,9 @@ export function requestValidate(config: AxiosRequestConfig) {
 // 如果有 token，则将 token 添加到 header 中
 export const TOKEN_HEADER_KEY = "Authorization";
 export function withToken(config: AxiosRequestConfig) {
-  if (tokenStore.hasToken()) {
+  if (tokenManager.hasToken()) {
     const tokenHeader = {
-      [TOKEN_HEADER_KEY]: tokenStore.getToken(),
+      [TOKEN_HEADER_KEY]: tokenManager.getToken(),
     };
     config.headers = assign(tokenHeader, config.headers);
   }

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { z } from "zod";
 import { genRequestId, REQUEST_ID_KEY, requestValidate, TOKEN_HEADER_KEY, withToken } from "@/tools/http";
-import { deleteToken, saveToken } from "@/tools/token";
+import { deleteToken, saveToken } from "@/tools/token-manager";
 import { initMockHttp } from "@/__tests__/helpers";
 
 // zod 规则
