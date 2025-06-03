@@ -1,9 +1,10 @@
 import { setupWorker, type SetupWorker } from "msw/browser";
-import { handlers } from "./handlers";
+import { handlers } from "./index";
 
+// for browser env
 // https://msw.nodejs.cn/docs/api/setup-worker/start/
 const worker: SetupWorker = setupWorker(...handlers);
-export const startMockServer = () => {
+export const startMockWorker = () => {
   return worker.start({
     onUnhandledRequest: "bypass",
     quiet: false, // enable debug output

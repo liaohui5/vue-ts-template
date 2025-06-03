@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { isFunction } from "./index";
+import { env } from "./env-vars";
 import MD5 from "crypto-js/md5";
 
 // 重新导出 lodash 函数, 避免在 monorepo 项目中多次安装
@@ -13,6 +14,14 @@ export * from "./env-vars";
 export * as progress from "./progress";
 export * as notify from "./notify";
 export * as tokenManager from "./token-manager";
+
+/**
+ * useMockApi 函数用于根据 path 获取模拟数据
+ * @param {string} path - 模拟数据的路径
+ */
+export function useMockApi(path: string): string {
+  return `${env.VITE_APP_API_BASE_URL}${path}`;
+}
 
 /**
  * 仅在开发环境下输出日志信息
