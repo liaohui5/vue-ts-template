@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { generateMock } from "@anatine/zod-mock";
-import { LoginResponseRules } from "@/validation";
+import { LoginResponseRules } from "@/validation/auth.rule";
 import { useMockApi } from "@/__mocks__/tools";
 import { config } from "@/tools";
 

@@ -30,6 +30,3 @@ export const LoginResponseRules = z.object({
   avatar: z.string().url(),
   token: z.string(),
 });
-
-export type LoginFormType = z.infer<typeof LoginFormRules>;
-export type LoginResponseType = z.infer<typeof LoginResponseRules>;

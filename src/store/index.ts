@@ -8,3 +8,6 @@ import type { App } from "vue";
 export function setupStore(app: App) {
   app.use(createPinia());
 }
+
+export * from "pinia";
+export * from "@/store/auth";

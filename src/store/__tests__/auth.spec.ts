@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
+import { resetStorage, setupRouterMock } from "@/__tests__/helpers";
 import { AUTH_USER_KEY, useAuth } from "@/store/auth";
 import { hasToken } from "@/tools/token-manager";
-import { resetStorage, setupRouterMock } from "@/__tests__/helpers";
 import { RouteNames } from "@/router";
 
 describe("auth store", () => {

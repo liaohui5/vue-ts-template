@@ -1,7 +1,7 @@
 import { http } from "@/tools/http";
-import { LoginFormRules, LoginResponseRules } from "@/validation";
-import type { LoginFormType, LoginResponseType, LoginResponseVO } from "@/types";
 import { assign, isUrl, md5, config } from "@/tools";
+import { LoginFormRules, LoginResponseRules } from "@/validation/auth.rule";
+import type { LoginFormType, LoginResponseType, LoginResponseVO } from "@/types/auth";
 
 // 登录接口请求数据格式映射(密码不要明文传输)
 export function encryptPassword(data: LoginFormType) {
