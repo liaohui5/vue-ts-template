@@ -3,14 +3,9 @@ import { isFunction } from "./index";
 import { env } from "./env-vars";
 import MD5 from "crypto-js/md5";
 
-// 重新导出 lodash 函数, 避免在 monorepo 项目中多次安装
+// 重新导出
 export * from "lodash-es";
-
-// 重新导出 env 和 config 变量, 处理过后的变量
-export * from "./config";
 export * from "./env-vars";
-
-// 重新导出变量名
 export * as progress from "./progress";
 export * as notify from "./notify";
 export * as tokenManager from "./token-manager";
@@ -47,7 +42,7 @@ export function errorLog(...args: Array<unknown>) {
  * 检查一个字符串是否是 URL
  * @param {string} url - 要检查的字符串
  */
-export function isUrl(url: string): boolean {
+export function isURL(url: string): boolean {
   try {
     new URL(url);
     return true;
