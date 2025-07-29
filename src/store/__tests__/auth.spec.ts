@@ -18,7 +18,7 @@ describe("auth store", () => {
     store.loginForm.password = "";
     await store.validateLoginForm();
     expect(store.validateErrMsg.email).toBe("邮箱格式有误");
-    expect(store.validateErrMsg.password).toBe("密码不能为空");
+    expect(store.validateErrMsg.password).toBe("密码至少6位");
 
     store.loginForm.email = "invalid_email";
     store.loginForm.password = "123";

@@ -1,56 +1,37 @@
-import type { SafeParseReturnType, Schema, ZodIssue } from "zod";
+import * as z from "zod";
 
-// 错误消息
-export type ErrorMessage = ZodIssue & { field: string };
-
-// 数据验证结果
-export interface ValidateResult<T> {
+// 数据验证结果类型
+interface ValidateResult<T> {
   passed: boolean;
-  data: T;
-  errors: ErrorMessage[];
+  data?: T;
+  errors: z.ZodFormattedError<T>;
 }
 
 // 数据验证(异步)
-export async function validate<T>(dataSource: T, rules: Schema): Promise<ValidateResult<T>> {
+export async function validate<T>(dataSource: T, rules: z.ZodTypeAny): Promise<ValidateResult<T>> {
   const results = await rules.safeParseAsync(dataSource);
-  return formatValidateResult<T>(results);
+  return formatValidateResult<T>(results as z.ZodSafeParseResult<T>);
 }
 
-// 同步的验证数据(同步)
-export function validateSync<T>(dataSource: T, rules: Schema): ValidateResult<T> {
+// 数据验证(同步)
+export function validateSync<T>(dataSource: T, rules: z.ZodTypeAny): ValidateResult<T> {
   const results = rules.safeParse(dataSource);
-  return formatValidateResult<T>(results);
+  return formatValidateResult<T>(results as z.ZodSafeParseResult<T>);
 }
 
 // 格式化数据验证的结果
-function formatValidateResult<T>(result: SafeParseReturnType<T, T>): ValidateResult<T> {
+function formatValidateResult<T>(result: z.ZodSafeParseResult<T>): ValidateResult<T> {
   if (result.success) {
     return {
       passed: true,
       data: result.data,
-      errors: [],
+      errors: { _errors: [] } as unknown as z.ZodFormattedError<T>,
     };
   }
+
   return {
     passed: false,
-    data: result.data as T,
-    errors: result.error.issues.map(formatIssue),
+    data: undefined,
+    errors: z.formatError(result.error),
   };
-}
-
-// 格式化 ZodIssue
-function formatIssue(issue: ZodIssue): ErrorMessage {
-  return {
-    field: issue.path.join("."),
-    ...issue,
-  };
-}
-
-// 格式错误信息
-export function flatErrors<T extends object>(errors: ErrorMessage[]): Record<keyof T, string> {
-  const result: Record<string, string> = {};
-  for (const item of errors) {
-    result[item.field] = item.message;
-  }
-  return result as Record<keyof T, string>;
 }
