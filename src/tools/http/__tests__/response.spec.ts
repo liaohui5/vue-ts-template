@@ -1,7 +1,7 @@
-import { initMockHttp } from "@/__tests__/helpers";
-import { responseValidate, unwrapBody } from "@/tools/http";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
+import { initMockHttp } from "@/__tests__/helpers";
+import { responseValidate, unwrapBody } from "@/tools/http";
 
 describe("响应拦截器", () => {
   describe("响应数据校验", () => {

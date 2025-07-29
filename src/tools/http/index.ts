@@ -1,9 +1,9 @@
-import axios from "axios";
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
 import type { ZodTypeAny } from "zod";
 import { env, errorLog } from "@/tools";
-import { genRequestId, withToken, requestValidate } from "./interceptors/request";
-import { unwrapBody, responseValidate } from "./interceptors/response";
+import { genRequestId, requestValidate, withToken } from "./interceptors/request";
+import { responseValidate, unwrapBody } from "./interceptors/response";
 
 // 直接导出
 export * from "./interceptors/request";

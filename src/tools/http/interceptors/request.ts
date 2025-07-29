@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from "axios";
-import { uuid, assign, tokenManager } from "@/tools";
+import { assign, tokenManager, uuid } from "@/tools";
 import { validateIO } from "@/tools/http";
 
 // 给请求添加请求ID,放到 query 参数中

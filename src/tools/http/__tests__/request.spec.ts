@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { z } from "zod";
+import { initMockHttp } from "@/__tests__/helpers";
 import { genRequestId, REQUEST_ID_KEY, requestValidate, TOKEN_HEADER_KEY, withToken } from "@/tools/http";
 import { deleteToken, saveToken } from "@/tools/token-manager";
-import { initMockHttp } from "@/__tests__/helpers";
 
 // zod 规则
 const validateRule = z.object({

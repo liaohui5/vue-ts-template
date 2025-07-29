@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth, storeToRefs } from "@/store";
+import { storeToRefs, useAuth } from "@/store";
 
 const store = useAuth();
 const { loginForm, validateErrMsg } = storeToRefs(store);

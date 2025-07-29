@@ -1,4 +1,4 @@
-import { setupServer, type SetupServer } from "msw/node";
+import { type SetupServer, setupServer } from "msw/node";
 import { handlers } from "./handlers";
 
 // for node.js env

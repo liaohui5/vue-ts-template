@@ -1,6 +1,6 @@
-import { RouteNames } from "./routes";
-import { progress, tokenManager } from "@/tools";
 import type { Router } from "vue-router";
+import { progress, tokenManager } from "@/tools";
+import { RouteNames } from "./routes";
 
 /**
  * 设置路由守卫

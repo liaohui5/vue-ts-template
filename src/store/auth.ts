@@ -1,13 +1,13 @@
-import type { LoginFormType, LoginResponseVO } from "@/types/auth";
-import { validate, flatErrors } from "@/validation";
-import { LoginFormRules } from "@/validation/auth.rule";
+import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, reactive, ref, toRaw } from "vue";
-import { showErrMsg } from "@/tools/notify";
-import { tokenManager, log } from "@/tools";
-import { useLocalStorage } from "@vueuse/core";
-import { useGoto } from "@/hooks/useGoto";
 import * as api from "@/api/auth";
+import { useGoto } from "@/hooks/useGoto";
+import { log, tokenManager } from "@/tools";
+import { showErrMsg } from "@/tools/notify";
+import type { LoginFormType, LoginResponseVO } from "@/types/auth";
+import { flatErrors, validate } from "@/validation";
+import { LoginFormRules } from "@/validation/auth.rule";
 
 export const AUTH_USER_KEY = "__auth_user__";
 export const useAuth = defineStore("auth", () => {

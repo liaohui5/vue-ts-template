@@ -1,7 +1,7 @@
+import { describe, expect, it } from "vitest";
+import { mountSetupComponentWithRouterMock } from "@/__tests__/helpers";
 import { useGoto } from "@/hooks/useGoto";
 import { RouteNames } from "@/router";
-import { mountSetupComponentWithRouterMock } from "@/__tests__/helpers";
-import { describe, expect, it } from "vitest";
 
 describe("useGoto", () => {
   it("应该重定向到登录页", async () => {

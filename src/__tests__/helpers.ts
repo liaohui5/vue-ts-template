@@ -1,16 +1,15 @@
+import { config, mount } from "@vue/test-utils";
+import AxiosMockAdapter from "axios-mock-adapter";
 import { vi } from "vitest";
-import { setRouterInstance, setupRouterGuards } from "@/router";
-import { mount, config } from "@vue/test-utils";
-import { routes } from "@/router";
 import {
   createRouterMock,
   injectRouterMock,
-  VueRouterMock,
   type RouterMock,
   type RouterMockOptions,
+  VueRouterMock,
 } from "vue-router-mock";
+import { routes, setRouterInstance, setupRouterGuards } from "@/router";
 import { createHttpClient, type RequestInterceptor, type ResponseInterceptor } from "@/tools/http";
-import AxiosMockAdapter from "axios-mock-adapter";
 
 /**
  * 设置路由模拟器(RouterMock 是专门用于测试 vue-router 的库)

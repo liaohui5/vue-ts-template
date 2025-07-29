@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // 登录表单数据验证规则
 export const LoginFormRules = z.object({
-  email: z.string().email("邮箱格式有误"),
+  email: z.email("邮箱格式有误"),
   password: z
     .string()
     .min(6, "密码至少6位")
@@ -10,12 +10,12 @@ export const LoginFormRules = z.object({
     .superRefine((value, ctx) => {
       if (!value || value.length === 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message: "密码不能为空",
         });
       } else if (!/^[0-9A-Za-z_@#*()-=+=!?.,&^%$#]+$/.test(value)) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message: "密码含有非法字符",
         });
       }
@@ -26,7 +26,7 @@ export const LoginFormRules = z.object({
 export const LoginResponseRules = z.object({
   id: z.number(),
   username: z.string(),
-  email: z.string().email(),
-  avatar: z.string().url(),
+  email: z.email(),
+  avatar: z.url(),
   token: z.string(),
 });

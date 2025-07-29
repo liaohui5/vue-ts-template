@@ -30,8 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth } from "@/store";
 import { storeToRefs } from "pinia";
+import { useAuth } from "@/store";
 
 const store = useAuth();
 const { authUser } = storeToRefs(store);

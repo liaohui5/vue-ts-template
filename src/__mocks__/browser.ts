@@ -1,4 +1,4 @@
-import { setupWorker, type SetupWorker } from "msw/browser";
+import { type SetupWorker, setupWorker } from "msw/browser";
 import { handlers } from "./handlers";
 
 // for browser env

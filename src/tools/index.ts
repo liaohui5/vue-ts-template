@@ -1,13 +1,13 @@
-import { v4 as uuidv4 } from "uuid";
-import { isFunction } from "./index";
-import { env } from "./env-vars";
 import MD5 from "crypto-js/md5";
+import { v4 as uuidv4 } from "uuid";
+import { env } from "./env-vars";
+import { isFunction } from "./index";
 
 // 重新导出
 export * from "lodash-es";
 export * from "./env-vars";
-export * as progress from "./progress";
 export * as notify from "./notify";
+export * as progress from "./progress";
 export * as tokenManager from "./token-manager";
 
 /**

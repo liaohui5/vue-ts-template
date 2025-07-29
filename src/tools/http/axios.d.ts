@@ -1,4 +1,4 @@
-import type { ZodTypeAny, ZodObject } from "zod";
+import type { ZodObject, ZodTypeAny } from "zod";
 
 declare module "axios" {
   interface AxiosRequestConfig {
