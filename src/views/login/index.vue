@@ -9,13 +9,13 @@
 
       <div>
         <div>
-          <el-input v-model="loginForm.email" placeholder="邮箱" size="large" />
-          <p v-show="validateErrMsg.email" class="text-error text-sm">{{ validateErrMsg.email }}</p>
+          <el-input v-model="loginForm.account" placeholder="请输入邮箱" size="large" />
+          <p v-show="validateErrors.account" class="text-error text-sm">{{ validateErrors.account }}</p>
         </div>
 
         <div class="pt-4">
-          <el-input v-model="loginForm.password" size="large" type="password" placeholder="密码" />
-          <p v-show="validateErrMsg.password" class="text-error text-sm">{{ validateErrMsg.password }}</p>
+          <el-input v-model="loginForm.password" size="large" type="password" placeholder="请输入密码" />
+          <p v-show="validateErrors.password" class="text-error text-sm">{{ validateErrors.password }}</p>
         </div>
       </div>
 
@@ -33,6 +33,6 @@
 import { storeToRefs, useAuth } from "@/store";
 
 const store = useAuth();
-const { loginForm, validateErrMsg } = storeToRefs(store);
+const { loginForm, validateErrors } = storeToRefs(store);
 const { resetLoginForm, submitLoginForm } = store;
 </script>

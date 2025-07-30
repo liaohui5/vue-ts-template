@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=8080",
-    "test": "vitest --silent",
-    "test:unit": "vitest run",
+    "test": "vitest --silent=true",
+    "test:unit": "vitest run --silent=true",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "prepare": "husky"
