@@ -141,7 +141,7 @@ describe("请求拦截器", () => {
       await send();
       const req = getLastRequest();
 
-      // TODO: 自动使用 Bearer Token 格式
+      // 验证是否自动使用 Bearer Token 格式
       expect(req.headers?.[TOKEN_HEADER_KEY]).toBe("Bearer mock-token");
     });
   });

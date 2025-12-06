@@ -32,14 +32,14 @@ export const useAuth = defineStore("auth", () => {
     $loading.show();
     try {
       const loginRes = await api.login(loginForm.value);
-      log("[login]login response", loginRes);
+      log("[authStore@login]登录接口响应", loginRes);
       setAuthUser(loginRes);
       tokenManager.saveAccessToken(authUser.value.accessToken);
       tokenManager.saveRefreshToken(authUser.value.refreshToken);
       await $goto.redirectToHome();
     } catch (e) {
       showErrMsg("登录失败,请稍后重试");
-      log("登录失败,请稍后重试:", e);
+      log("[authStore@login]登录失败,请稍后重试:", e);
     } finally {
       $loading.hide();
     }

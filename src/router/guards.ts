@@ -12,7 +12,6 @@ export function setupRouterGuards(router: Router) {
 }
 
 /**
- * TODO: 补全单元测试
  * 开发阶段会输出 router 调试信息
  * @param {VueRouter} router - vue-router 实例
  */

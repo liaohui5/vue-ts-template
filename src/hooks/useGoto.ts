@@ -6,7 +6,7 @@ export function useGoto() {
     return getRouterInstance()?.replace({ name: RouteName, params });
   }
 
-  function toPage(RouteName: RouteNames, params = {}) {
+  function gotoPage(RouteName: RouteNames, params = {}) {
     return getRouterInstance()?.push({ name: RouteName, params });
   }
 
@@ -15,7 +15,7 @@ export function useGoto() {
 
   return {
     redirect,
-    toPage,
+    gotoPage,
     redirectToLogin,
     redirectToHome,
   };
