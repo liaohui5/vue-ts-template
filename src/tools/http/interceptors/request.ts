@@ -46,9 +46,9 @@ export function requestValidate(config: AxiosRequestConfig) {
 // 如果有 token，则将 token 添加到 header 中
 export const TOKEN_HEADER_KEY = "Authorization";
 export function withToken(config: AxiosRequestConfig) {
-  if (tokenManager.hasToken()) {
+  if (tokenManager.hasAccessToken()) {
     const tokenHeader = {
-      [TOKEN_HEADER_KEY]: tokenManager.getToken(),
+      [TOKEN_HEADER_KEY]: tokenManager.getBearerToken(),
     };
     config.headers = assign(tokenHeader, config.headers);
   }

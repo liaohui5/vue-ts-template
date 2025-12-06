@@ -1,11 +1,20 @@
-export const __TOKEN_KEY__ = "__auth_token__";
+export const __ACCESS_TOKEN_KEY__ = "__access_token__";
+export const __REFRESH_TOKEN_KEY__ = "__refresh_token__";
 export const storage = window.localStorage;
 
-export const getToken = () => storage.getItem(__TOKEN_KEY__);
-export const hasToken = () => Boolean(getToken());
+export const getAccessToken = () => storage.getItem(__ACCESS_TOKEN_KEY__);
+export const hasAccessToken = () => Boolean(getAccessToken());
+export const saveAccessToken = (token: string) => storage.setItem(__ACCESS_TOKEN_KEY__, token);
+export const removeAccessToken = () => storage.removeItem(__ACCESS_TOKEN_KEY__);
 
-export const setToken = (token: string) => storage.setItem(__TOKEN_KEY__, token);
-export const saveToken = setToken;
+export const getRefreshToken = () => storage.getItem(__REFRESH_TOKEN_KEY__);
+export const hasRefreshToken = () => Boolean(getRefreshToken());
+export const saveRefreshToken = (token: string) => storage.setItem(__REFRESH_TOKEN_KEY__, token);
+export const removeRefreshToken = () => storage.removeItem(__REFRESH_TOKEN_KEY__);
 
-export const deleteToken = () => storage.removeItem(__TOKEN_KEY__);
-export const removeToken = deleteToken;
+export const removeTokens = () => {
+  removeAccessToken();
+  removeRefreshToken();
+};
+
+export const getBearerToken = () => `Bearer ${getAccessToken()}`;

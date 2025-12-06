@@ -7,22 +7,20 @@
         </div>
       </template>
 
-      <div>
-        <div>
-          <el-input v-model="loginForm.account" placeholder="请输入邮箱" size="large" />
-          <p v-show="validateErrors.account" class="text-error text-sm">{{ validateErrors.account }}</p>
-        </div>
+      <el-form>
+        <el-form-item v-bind="accountProp">
+          <el-input v-model="account" placeholder="请输入邮箱/手机号码" size="large" />
+        </el-form-item>
 
-        <div class="pt-4">
-          <el-input v-model="loginForm.password" size="large" type="password" placeholder="请输入密码" />
-          <p v-show="validateErrors.password" class="text-error text-sm">{{ validateErrors.password }}</p>
-        </div>
-      </div>
+        <el-form-item v-bind="passwordProp">
+          <el-input v-model="password" type="password" placeholder="密码" size="large" />
+        </el-form-item>
+      </el-form>
 
       <template #footer>
         <div class="flex justify-center">
-          <el-button size="large" @click="resetLoginForm" type="danger">重 置</el-button>
-          <el-button size="large" @click="submitLoginForm" type="primary">登 录</el-button>
+          <el-button size="large" @click="resetForm()" type="danger">重 置</el-button>
+          <el-button size="large" @click="submitHandler" type="primary">登 录</el-button>
         </div>
       </template>
     </el-card>
@@ -30,9 +28,34 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs, useAuth } from "@/store";
+import { useForm } from "vee-validate";
+import { useAuth } from "@/store";
+import { loginZod, type LoginFormType } from "@/validation";
 
 const store = useAuth();
-const { loginForm, validateErrors } = storeToRefs(store);
-const { resetLoginForm, submitLoginForm } = store;
+
+const { defineField, handleSubmit, resetForm } = useForm<LoginFormType>({
+  validationSchema: loginZod,
+  initialValues: {
+    //// set some initial values for test
+    // account: "root@qq.com",
+    // password: "123456",
+    account: "",
+    password: "",
+  },
+});
+
+const fieldOpts = (state: any) => ({
+  props: {
+    validateEvent: false,
+    error: state.errors[0],
+    required: true,
+    // label: "",
+  },
+});
+const [account, accountProp] = defineField("account", fieldOpts);
+const [password, passwordProp] = defineField("password", fieldOpts);
+
+// validate first
+const submitHandler = handleSubmit(store.login);
 </script>

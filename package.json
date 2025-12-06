@@ -20,6 +20,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.3.1",
     "uuid": "^11.1.0",
+    "vee-validate": "5.0.0-beta.0",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3",
     "zod": "^4.1.13"
@@ -48,9 +49,17 @@
   },
   "license": "MIT",
   "msw": {
-    "workerDirectory": [""]
+    "workerDirectory": [
+      ""
+    ]
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@sentry/cli", "@tailwindcss/oxide", "esbuild", "msw", "vue-demi"]
+    "onlyBuiltDependencies": [
+      "@sentry/cli",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "msw",
+      "vue-demi"
+    ]
   }
 }

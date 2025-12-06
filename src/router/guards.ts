@@ -52,7 +52,7 @@ export function setupProgressGuard(router: Router) {
  */
 export function setupAuthGuard(router: Router) {
   router.beforeEach((to, _form, next) => {
-    if (to.meta.isPublic || tokenManager.hasToken()) {
+    if (to.meta.isPublic || tokenManager.hasAccessToken()) {
       return next();
     }
     return next({ name: RouteNames.Login });

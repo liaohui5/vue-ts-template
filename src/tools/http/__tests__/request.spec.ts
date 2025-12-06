@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { initMockHttp } from "@/__tests__/helpers";
 import { genRequestId, REQUEST_ID_KEY, requestValidate, TOKEN_HEADER_KEY, withToken } from "@/tools/http";
-import { deleteToken, saveToken } from "@/tools/token-manager";
+import { tokenManager } from "@/tools";
 
 // zod 规则
 const validateRule = z.object({
@@ -131,16 +131,18 @@ describe("请求拦截器", () => {
       reply();
 
       // 防止其他 test case 会影响, 先删除 token
-      deleteToken();
+      tokenManager.removeTokens();
       await send();
       const { headers } = getLastRequest();
       expect(headers?.[TOKEN_HEADER_KEY]).toBe(undefined);
 
       // 保存 token 后再次发送
-      saveToken("mock-token");
+      tokenManager.saveAccessToken("mock-token");
       await send();
       const req = getLastRequest();
-      expect(req.headers?.[TOKEN_HEADER_KEY]).toBe("mock-token");
+
+      // TODO: 自动使用 Bearer Token 格式
+      expect(req.headers?.[TOKEN_HEADER_KEY]).toBe("Bearer mock-token");
     });
   });
 });

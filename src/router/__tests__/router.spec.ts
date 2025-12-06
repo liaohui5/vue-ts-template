@@ -6,8 +6,8 @@ import { progress, tokenManager } from "@/tools";
 describe("router", () => {
   describe("检查登录路由守卫", () => {
     it("没有登录时,访问需要登录的页面应该重定向到登录页", async () => {
-      tokenManager.removeToken(); // 删除 token, 验证登录需要用到 token 是否存在
-      expect(tokenManager.hasToken()).toBe(false);
+      tokenManager.removeTokens(); // 删除 token, 验证登录需要用到 token 是否存在
+      expect(tokenManager.hasAccessToken()).toBe(false);
 
       const routerMock = setupRouterMock();
       await routerMock.push({ name: RouteNames.Home });
@@ -16,7 +16,7 @@ describe("router", () => {
     });
 
     it("已经登录后,访问需要登录的页面应该正常访问", async () => {
-      tokenManager.saveToken("some-token-string"); // 模拟登录的状态
+      tokenManager.saveAccessToken("some-token-string"); // 模拟登录的状态
 
       const routerMock = setupRouterMock();
       await routerMock.push({ name: RouteNames.Home });
