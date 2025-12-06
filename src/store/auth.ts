@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import * as api from "@/api/auth";
 import { $goto } from "@/hooks/useGoto";
-import { log, tokenManager } from "@/tools";
+import { log, tokenManager, encodePassword } from "@/tools";
 import { showErrMsg } from "@/tools/notify";
 import { useLoading } from "@/hooks/useLoading";
 import type { LoginFormType, LoginResponseType } from "@/types/auth";
@@ -16,7 +16,7 @@ export const useAuth = defineStore("auth", () => {
   });
   function setLoginFormData(data?: LoginFormType) {
     if (data) {
-      loginForm.value = data;
+      loginForm.value = encodePassword(data);
     }
   }
 

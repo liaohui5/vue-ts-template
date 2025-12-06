@@ -1,14 +1,16 @@
 import { createPinia, setActivePinia, storeToRefs } from "pinia";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { resetStorage, setupRouterMock } from "@/__tests__/helpers";
 import { RouteNames } from "@/router";
 import { AUTH_USER_KEY, useAuth } from "@/store/auth";
 import { hasAccessToken, hasRefreshToken } from "@/tools/token-manager";
+import * as authApi from "@/api/auth";
 
 describe("auth store", () => {
   beforeEach(() => {
     resetStorage();
     setActivePinia(createPinia());
+    vi.clearAllMocks();
   });
 
   it("提交登录表单应该设置loading状态, 提交完成后应该再次设置loading状态", async () => {
@@ -20,6 +22,35 @@ describe("auth store", () => {
 
     await promise;
     expect(store.isLoading).toBe(false);
+  });
+
+  it("提交登陆表单进行请求的时候, 应该密文发送密码, 避免明文传输", async () => {
+    const mockLoginApi = vi.fn(() => {
+      return Promise.resolve({
+        id: 1,
+        username: "foo",
+        email: "123456@example.com",
+      } as any);
+    });
+    vi.spyOn(authApi, "login").mockImplementation(mockLoginApi);
+
+    const store = useAuth();
+    const { isLogin, authUser } = storeToRefs(store);
+    expect(isLogin.value).toBe(false);
+    expect(authUser.value).toEqual({});
+
+    // 通过数据验证 -> 发送登录请求
+    store.setLoginFormData({
+      account: "123456@example.com",
+      password: "123456", // md5: e10adc3949ba59abbe56e057f20f883e
+    });
+    await store.login();
+
+    // 验证密码是否是密文传输
+    expect(mockLoginApi).toBeCalledWith({
+      account: "123456@example.com",
+      password: "e10adc3949ba59abbe56e057f20f883e",
+    });
   });
 
   it("登录成功后,应该设置登录用户的数据和登录状态", async () => {

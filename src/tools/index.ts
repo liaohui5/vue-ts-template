@@ -1,6 +1,7 @@
 import { env } from "./env-vars";
 
 export * from "lodash-es";
+export * from "./password";
 export * from "./env-vars";
 export * from "./md5";
 export * from "./mock";
