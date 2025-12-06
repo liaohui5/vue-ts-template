@@ -1,7 +1,6 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
-import type { ZodTypeAny } from "zod";
-import { env, errorLog } from "@/tools";
+import { env } from "@/tools";
 import { genRequestId, requestValidate, withToken } from "./interceptors/request";
 import { responseValidate, unwrapBody } from "./interceptors/response";
 
@@ -10,7 +9,9 @@ export * from "./interceptors/request";
 export * from "./interceptors/response";
 
 /* prettier-ignore */
-export type RequestInterceptor<T> = (config: AxiosRequestConfig<T>) => AxiosRequestConfig<T> | Promise<AxiosRequestConfig<T>>;
+export type RequestInterceptor<T> = (
+  config: AxiosRequestConfig<T>,
+) => AxiosRequestConfig<T> | Promise<AxiosRequestConfig<T>>;
 export type ResponseInterceptor<T> = (response: AxiosResponse<T>) => AxiosResponse<T> | Promise<AxiosResponse<T>>;
 
 /**
@@ -33,7 +34,7 @@ export function createHttpClient(
 
   for (let i = 0; i < reqInterceptors.length; i++) {
     const item = reqInterceptors[i];
-    /* @ts-ignore */
+    /* @ts-expect-error */
     client.interceptors.request.use(item);
   }
 
@@ -43,23 +44,6 @@ export function createHttpClient(
   }
 
   return client;
-}
-
-/**
- * 验证输入输出数据是否符合指定的规则
- *
- * @param label 验证的标签，用于在错误信息中标识验证的类型
- * @param rules 验证规则，使用 ZodTypeAny 类型进行定义
- * @param data 需要验证的数据对象
- * @throws 如果数据不符合规则，则抛出包含验证错误详情的异常
- */
-export function validateIO<T extends object>(label: string, rules: ZodTypeAny, data: T) {
-  const result = rules.safeParse(data);
-  if (!result.success) {
-    const errorMsg = `[validateIO] ${label} validation failed`;
-    errorLog(errorMsg, result.error.issues);
-    throw new Error(errorMsg);
-  }
 }
 
 /////////////////////////////////////////////////////////////////

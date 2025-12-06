@@ -37,7 +37,7 @@ describe("auth store", () => {
 
     loginForm.value = {
       account: "test@example.com",
-      password: "123456"
+      password: "123456",
     };
     await store.validateLoginForm();
     expect(validateErrors.value).toEqual({

@@ -3,12 +3,12 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import * as api from "@/api/auth";
 import { useGoto } from "@/hooks/useGoto";
+import { useLoading } from "@/hooks/useLoading";
 import { log, tokenManager } from "@/tools";
 import { showErrMsg } from "@/tools/notify";
 import type { LoginFormType, LoginResponseType } from "@/types/auth";
 import { validate } from "@/validation";
-import { LoginFormRules } from "@/validation/auth.rule";
-import { useLoading } from "@/hooks/useLoading";
+import { LoginFormRules } from "@/validation/auth.schema";
 
 const goto = useGoto();
 export const AUTH_USER_KEY = "__auth_user__";

@@ -79,7 +79,7 @@ export function resetStorage() {
 // 初始化模拟 http 及一些助手函数
 export function initMockHttp(
   reqInterceptor?: RequestInterceptor<unknown>,
-  resInterceptor?: ResponseInterceptor<unknown>
+  resInterceptor?: ResponseInterceptor<unknown>,
 ) {
   const reqInterceptors: Array<RequestInterceptor<unknown>> = [];
   const resInterceptors: Array<ResponseInterceptor<unknown>> = [];

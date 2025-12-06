@@ -1,3 +1,4 @@
+import { zocker } from "zocker";
 import * as z from "zod";
 
 // 登录表单数据验证规则
@@ -14,3 +15,10 @@ export const LoginResponseRules = z.object({
   avatar: z.url(),
   token: z.string(),
 });
+
+// 导出类型
+export type LoginFormType = z.infer<typeof LoginFormRules>;
+export type LoginResponseType = z.infer<typeof LoginResponseRules>;
+
+// 导出模拟数据: mockLoginResponse.generate()
+export const mockLoginResponse = zocker(LoginResponseRules);

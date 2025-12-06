@@ -7,7 +7,6 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
 
-  // @ts-ignore
   test: {
     globals: true,
     environment: "happy-dom",
@@ -18,9 +17,5 @@ export default defineConfig({
     alias: {
       "@": "/src/",
     },
-  },
-
-  build: {
-    target: "esnext",
   },
 });

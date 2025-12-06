@@ -3,6 +3,8 @@ import { mountSetupComponentWithRouterMock } from "@/__tests__/helpers";
 import { useGoto } from "@/hooks/useGoto";
 import { RouteNames } from "@/router";
 
+// TODO: 应该测试 redirect 和 goto 方法, 看 history 区别
+// 这些别名便捷方法, 不需要测试, 出错的几率较小
 describe("useGoto", () => {
   it("应该重定向到登录页", async () => {
     const { router } = mountSetupComponentWithRouterMock(() => {

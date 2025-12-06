@@ -1,18 +1,28 @@
 import type { Router } from "vue-router";
-import { progress, tokenManager } from "@/tools";
+import { log, progress, tokenManager } from "@/tools";
 import { RouteNames } from "./routes";
 
 /**
  * 设置路由守卫
  * @param {VueRouter} router - vue-router 实例
- * @description
- * 1. 检查登录守卫
- *  - 如果是公共路由,或者已经登录了,都可以继续 router
- *  - 如果不是公共路由,或者没有登录,都重定向到登录页
  */
 export function setupRouterGuards(router: Router) {
   setupProgressGuard(router);
   setupAuthGuard(router);
+}
+
+/**
+ * TODO: 补全单元测试
+ * 开发阶段会输出 router 调试信息
+ * @param {VueRouter} router - vue-router 实例
+ */
+export function setupLoggerGuard(router: Router) {
+  router.beforeEach(() => {
+    log("=> beforeEach:", router);
+  });
+  router.afterEach(() => {
+    log("=> afterEach:", router);
+  });
 }
 
 /**

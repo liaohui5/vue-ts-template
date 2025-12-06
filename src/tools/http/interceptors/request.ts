@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from "axios";
 import { assign, tokenManager, uuid } from "@/tools";
-import { validateIO } from "@/tools/http";
+import { validateIO } from "@/validation";
 
 // 给请求添加请求ID,放到 query 参数中
 export const REQUEST_ID_KEY = "request_id";

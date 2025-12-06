@@ -19,11 +19,10 @@ export function setupRouter(app: App) {
   return router.isReady();
 }
 
+// 方便在 script setup 外使用 router(比如单元测试)
 let _router: Router | undefined;
 export function setRouterInstance(router: Router) {
   _router = router;
 }
 
-export function getRouterInstance() {
-  return _router;
-}
+export const getRouterInstance = () => _router;

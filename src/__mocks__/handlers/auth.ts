@@ -1,14 +1,11 @@
 import { HttpResponse, http } from "msw";
-import { zocker } from "zocker";
 import { useMockApi } from "@/tools";
-import { LoginResponseRules } from "@/validation/auth.rule";
+import { mockLoginResponse } from "@/validation/auth.schema";
 
-const defaultAvatar = "https://raw.githubusercontent.com/liaohui5/images/main/images/202503041407813.jpg";
-
-// 模拟登录接口: 直接根据 zod 验证规则来模拟数据
 export const loginHandler = http.post(useMockApi("/api/auth"), () => {
-  const mockData = zocker(LoginResponseRules).generate();
-  mockData.avatar = defaultAvatar;
+  // 直接根据验证规则来生成对应的数据
+  const mockData = mockLoginResponse.generate();
+  mockData.avatar = "https://avatars.githubusercontent.com/u/29266093";
   return HttpResponse.json(mockData);
 
   // 虽然使用验证规则可以很方便的模拟数据, 但是每次数据都

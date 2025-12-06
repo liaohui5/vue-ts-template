@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
-import Home from "@/views/Home/index.vue";
-import Login from "@/views/Login/index.vue";
+import Home from "@/views/home/index.vue";
+import Login from "@/views/login/index.vue";
 
 export enum RouteNames {
   Login = "login",
