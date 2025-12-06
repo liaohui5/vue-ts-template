@@ -16,7 +16,97 @@
 ## 项目结构
 
 ```txt
+.
+├── Dockerfile
+├── LICENSE
+├── README.md
+├── ToDo.md
+├── biome.json
+├── docker-compose.yaml
+├── env.example
+├── index.html
+├── mockServiceWorker.js
+├── package.json
+├── pnpm-lock.yaml
+├── public
+│   └── vite.svg
+├── rebuild.sh
+├── src
+│   ├── App.vue
+│   ├── __mocks__
+│   │   ├── browser.ts
+│   │   ├── handlers
+│   │   │   └── auth.ts
+│   │   ├── handlers.ts
+│   │   └── node.ts
+│   ├── __tests__
+│   │   ├── helpers.ts
+│   │   └── setupMSW.ts
+│   ├── api
+│   │   └── auth.ts
+│   ├── components
+│   │   └── nav-bar
+│   │       └── index.vue
+│   ├── hooks
+│   │   ├── __tests__
+│   │   │   ├── useGoto.spec.ts
+│   │   │   └── useLoading.spec.ts
+│   │   ├── useGoto.ts
+│   │   └── useLoading.ts
+│   ├── layout.vue
+│   ├── main.ts
+│   ├── plugins
+│   │   ├── element-plus.ts
+│   │   └── msw.ts
+│   ├── router
+│   │   ├── __tests__
+│   │   │   └── router.spec.ts
+│   │   ├── guards.ts
+│   │   ├── index.ts
+│   │   └── routes.ts
+│   ├── store
+│   │   ├── __tests__
+│   │   │   └── auth.spec.ts
+│   │   ├── auth.ts
+│   │   └── index.ts
+│   ├── style.css
+│   ├── tools
+│   │   ├── env-vars.ts
+│   │   ├── http
+│   │   │   ├── __tests__
+│   │   │   │   ├── request.spec.ts
+│   │   │   │   └── response.spec.ts
+│   │   │   ├── axios.d.ts
+│   │   │   ├── index.ts
+│   │   │   └── interceptors
+│   │   │       ├── request.ts
+│   │   │       └── response.ts
+│   │   ├── index.ts
+│   │   ├── md5.ts
+│   │   ├── mock.ts
+│   │   ├── notify.ts
+│   │   ├── password.ts
+│   │   ├── progress.ts
+│   │   ├── token-manager.ts
+│   │   └── uuid.ts
+│   ├── types
+│   │   └── auth.ts
+│   ├── validation
+│   │   ├── auth.schema.ts
+│   │   ├── env.schema.ts
+│   │   └── index.ts
+│   ├── views
+│   │   ├── home
+│   │   │   └── index.vue
+│   │   └── login
+│   │       └── index.vue
+│   └── vite-env.d.ts
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
 
+25 directories, 64 files
 ```
 
 ## 快速启动
