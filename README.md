@@ -16,96 +16,7 @@
 ## 项目结构
 
 ```txt
-.
-├── LICENSE
-├── README.md
-├── env.example
-├── index.html
-├── mockServiceWorker.js
-├── package.json
-├── pnpm-lock.yaml
-├── postcss.config.js
-├── public
-│   └── vite.svg
-├── src
-│   ├── App.vue
-│   ├── Layout.vue
-│   ├── __mocks__
-│   │   ├── browser.ts
-│   │   ├── handlers
-│   │   │   └── auth.ts
-│   │   ├── handlers.ts
-│   │   └── node.ts
-│   ├── __tests__
-│   │   ├── helpers.ts
-│   │   └── setupMSW.ts
-│   ├── api
-│   │   ├── auth.ts
-│   │   ├── index.ts
-│   │   └── transformers
-│   │       ├── __tests__
-│   │       │   └── auth.spec.ts
-│   │       └── auth.ts
-│   ├── assets
-│   ├── components
-│   ├── hooks
-│   │   ├── __tests__
-│   │   │   └── useGoto.spec.ts
-│   │   ├── index.ts
-│   │   └── useGoto.ts
-│   ├── main.ts
-│   ├── plugins
-│   │   ├── element-plus.ts
-│   │   ├── index.ts
-│   │   └── mock-service-worker.ts
-│   ├── router
-│   │   ├── __tests__
-│   │   │   └── router.spec.ts
-│   │   ├── guards.ts
-│   │   ├── index.ts
-│   │   └── routes.ts
-│   ├── store
-│   │   ├── __tests__
-│   │   │   └── auth.spec.ts
-│   │   ├── auth.ts
-│   │   └── index.ts
-│   ├── style.css
-│   ├── tools
-│   │   ├── algorithm.ts
-│   │   ├── env-vars.ts
-│   │   ├── http
-│   │   │   ├── __tests__
-│   │   │   │   ├── request.spec.ts
-│   │   │   │   └── response.spec.ts
-│   │   │   ├── axios.d.ts
-│   │   │   ├── index.ts
-│   │   │   └── interceptors
-│   │   │       ├── request.ts
-│   │   │       └── response.ts
-│   │   ├── index.ts
-│   │   ├── notify.ts
-│   │   ├── progress.ts
-│   │   └── token.ts
-│   ├── types
-│   │   ├── auth.ts
-│   │   └── index.ts
-│   ├── validation
-│   │   ├── index.ts
-│   │   ├── rules
-│   │   │   └── auth.ts
-│   │   └── validate.ts
-│   ├── views
-│   │   ├── home
-│   │   │   └── index.vue
-│   │   └── login
-│   │       └── index.vue
-│   └── vite-env.d.ts
-├── tailwind.config.js
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
-├── vite.config.ts
-└── vitest.config.ts
+
 ```
 
 ## 快速启动
@@ -128,3 +39,20 @@ cp env.example .env
 
 因为需要 `mockServiceWorker.js` 所以模拟服务端仅在开发模式下生效
 如果要打包后运行, 请使用真实的 API 服务
+
+## 部署
+
+使用 docker-compose 部署
+
+```sh
+# 为 rebuild.sh 添加可执行权限
+chmod +x rebuild.sh
+
+# 将构建 docker 镜像需要的配置文件打包成 .zip 压缩包
+./rebuild.sh
+
+# 启动 docker-compose 服务
+unzip build.zip
+cd ./build
+docker-compose up -d --build
+```
