@@ -1,24 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { z } from "zod";
 import { initMockHttp } from "@/__tests__/helpers";
-import { genRequestId, REQUEST_ID_KEY, requestValidate, TOKEN_HEADER_KEY, withToken } from "@/tools/http";
-import { tokenManager } from "@/tools";
-
-// zod 规则
-const validateRule = z.object({
-  foo: z.string(),
-  bar: z.boolean(),
-  baz: z.number(),
-});
-
-// 创建能够通过 zod 规则校验的数据
-const createValidatedData = () => {
-  return {
-    foo: "foo",
-    bar: true,
-    baz: 1,
-  };
-};
+import { genRequestId, REQUEST_ID_KEY, TOKEN_HEADER_KEY, withToken, withBearerToken } from "@/tools/http";
+import { removeAccessToken, saveAccessToken } from "@/tools/token-manager";
 
 describe("请求拦截器", () => {
   describe("生成请求id", () => {
@@ -49,99 +32,40 @@ describe("请求拦截器", () => {
     });
   });
 
-  describe("请求数据校验", () => {
-    it(`应该校验 axios 请求对象 params 参数, 不通过校验就抛出异常`, async () => {
-      const { reply, send, getLastRequest } = initMockHttp(requestValidate);
-      reply();
-
-      function sendReqFunc(data: object) {
-        return send({
-          reqParamsZod: validateRule,
-          params: data,
-        });
-      }
-
-      await expect(() => sendReqFunc({ foo: "foo" })).rejects.toThrow();
-
-      // 因为抛出异常后不会发送请求, 所以 从 mockServer
-      // history 记录中获取的 request 为 undefined
-      const lastRequest = getLastRequest();
-      expect(lastRequest).toBeUndefined();
-
-      // 通过校验的就正常发送请求
-      await sendReqFunc(createValidatedData());
-      const { params } = getLastRequest();
-      expect(params).toEqual(createValidatedData());
-    });
-
-    it("应该校验 axios 请求对象 headers 参数, 不通过校验规则就抛出异常", async () => {
-      const { reply, send, getLastRequest } = initMockHttp(requestValidate);
-      reply();
-
-      function sendReqFunc(data: object) {
-        return send({
-          // 注意: headers 必须全部是字符串
-          reqHeaderZod: z.object({ foo: z.string(), bar: z.string() }),
-          headers: data,
-        });
-      }
-
-      await expect(() => sendReqFunc({ foo: "foo" })).rejects.toThrow();
-
-      // 因为抛出异常后不会发送请求, 所以 从 mockServer
-      // history 记录中获取的 request 为 undefined
-      const lastRequest = getLastRequest();
-      expect(lastRequest).toBeUndefined();
-
-      // 通过校验的就正常发送请求
-      const customHeaders = { foo: "foo", bar: "bar" };
-      await sendReqFunc(customHeaders);
-      const { headers } = getLastRequest();
-      expect(headers).toMatchObject(customHeaders);
-    });
-
-    it("应该校验 axios 请求对象 data 参数, 不通过校验规则就抛出异常", async () => {
-      const { reply, send, getLastRequest } = initMockHttp(requestValidate);
-      reply();
-
-      function sendReqFunc(data: object) {
-        return send({
-          reqDataZod: validateRule,
-          data: data,
-        });
-      }
-
-      await expect(() => sendReqFunc({ foo: "foo" })).rejects.toThrow();
-
-      // 因为抛出异常后不会发送请求, 所以 从 mockServer
-      // history 记录中获取的 request 为 undefined
-      const lastRequest = getLastRequest();
-      expect(lastRequest).toBeUndefined();
-
-      // 通过校验的就正常发送请求
-      await sendReqFunc(createValidatedData());
-      const { data } = getLastRequest();
-      expect(data).toBe(JSON.stringify(createValidatedData()));
-    });
-  });
-
   describe("自动携带 token", () => {
     it(`如果有token, 将 token 将设置到 request headers 的 ${TOKEN_HEADER_KEY} 字段`, async () => {
       const { reply, send, getLastRequest } = initMockHttp(withToken);
       reply();
 
       // 防止其他 test case 会影响, 先删除 token
-      tokenManager.removeTokens();
+      removeAccessToken();
       await send();
       const { headers } = getLastRequest();
       expect(headers?.[TOKEN_HEADER_KEY]).toBe(undefined);
 
       // 保存 token 后再次发送
-      tokenManager.saveAccessToken("mock-token");
+      saveAccessToken("mock-token");
+      await send();
+      const req = getLastRequest();
+      expect(req.headers?.[TOKEN_HEADER_KEY]).toBe("mock-token");
+    });
+
+    it(`如果有token, 将 token 将设置到 request headers 的 ${TOKEN_HEADER_KEY} 字段`, async () => {
+      const { reply, send, getLastRequest } = initMockHttp(withBearerToken);
+      reply();
+
+      // 防止其他 test case 会影响, 先删除 token
+      removeAccessToken();
+      await send();
+      const { headers } = getLastRequest();
+      expect(headers?.[TOKEN_HEADER_KEY]).toBe(undefined);
+
+      // 保存 token 后再次发送
+      saveAccessToken("mock-token");
       await send();
       const req = getLastRequest();
 
-      // 验证是否自动使用 Bearer Token 格式
+      // 所谓 Bearer 格式, 本质就是在 token 前面加上 Bearer 前缀, 类似: `Bearer ${token}`
       expect(req.headers?.[TOKEN_HEADER_KEY]).toBe("Bearer mock-token");
     });
   });

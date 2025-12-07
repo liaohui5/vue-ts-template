@@ -1,18 +1,17 @@
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import axios from "axios";
 import { env } from "@/tools";
-import { genRequestId, requestValidate, withToken } from "./interceptors/request";
-import { responseValidate, unwrapBody } from "./interceptors/response";
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
+import { validationErrorHandler, internalErrorHandler, accessTokenExpiredHandler } from "./interceptors/error-handler";
+import { genRequestId, withBearerToken } from "./interceptors/request";
+import { unwrapData } from "./interceptors/response";
 
-// 直接导出
+export * from "./interceptors/error-handler";
 export * from "./interceptors/request";
 export * from "./interceptors/response";
 
-/* prettier-ignore */
-export type RequestInterceptor<T> = (
-  config: AxiosRequestConfig<T>,
-) => AxiosRequestConfig<T> | Promise<AxiosRequestConfig<T>>;
-export type ResponseInterceptor<T> = (response: AxiosResponse<T>) => AxiosResponse<T> | Promise<AxiosResponse<T>>;
+export type RequestInterceptor = (config: AxiosRequestConfig) => AxiosRequestConfig | Promise<AxiosRequestConfig>;
+export type ResponseInterceptor = (response: AxiosResponse) => AxiosResponse | Promise<AxiosResponse>;
+export type ErrorInterceptor = (error: AxiosError) => Promise<AxiosError> | Promise<AxiosResponse>;
 
 /**
  * 创建一个HTTP客户端
@@ -23,45 +22,65 @@ export type ResponseInterceptor<T> = (response: AxiosResponse<T>) => AxiosRespon
  * @param baseConfig - 基础请求配置，用于axios.create
  * @param reqInterceptors - 请求拦截器数组，用于在请求发送之前执行逻辑
  * @param resInterceptors - 响应拦截器数组，用于在响应接收后执行逻辑
+ * @param errInterceptors - 错误拦截器数组，用于在响应报错(比如HTTP响应状态码500)的执行逻辑
  * @returns 返回一个配置好拦截器的Axios实例
  */
 export function createHttpClient(
   baseConfig: AxiosRequestConfig,
-  reqInterceptors: Array<RequestInterceptor<unknown>> = [],
-  resInterceptors: Array<ResponseInterceptor<unknown>> = [],
+  reqInterceptors: Array<RequestInterceptor> = [],
+  resInterceptors: Array<ResponseInterceptor> = [],
+  errInterceptors: Array<ErrorInterceptor> = [],
 ): AxiosInstance {
   const client = axios.create(baseConfig);
 
   for (let i = 0; i < reqInterceptors.length; i++) {
-    const item = reqInterceptors[i];
-    /* @ts-expect-error */
-    client.interceptors.request.use(item);
+    /** @ts-ignore */
+    client.interceptors.request.use(reqInterceptors[i]);
   }
 
   for (let i = 0; i < resInterceptors.length; i++) {
-    const item = resInterceptors[i];
-    client.interceptors.response.use(item);
+    client.interceptors.response.use(resInterceptors[i]);
+  }
+
+  for (let i = 0; i < errInterceptors.length; i++) {
+    client.interceptors.response.use(null, errInterceptors[i]);
   }
 
   return client;
 }
 
-/////////////////////////////////////////////////////////////////
-// 验证响应数据
-// 只有 .env 中的 VITE_APP_API_VLIDATION_ENABLED 为 true 的时候才
-// 校验响应内容, 建议只在开发模式下启用校验, 方便快速调试响应值是否符合规则
-// 生产模式下不进行校验, 因为生产模式下, 响应的数据已经返回了,
-// 所以即使校验了数据, 也并没有什么实际作用
-/////////////////////////////////////////////////////////////////
-const reqInterceptors = [requestValidate, genRequestId, withToken];
-const resInterceptors = [unwrapBody];
-if (env.VITE_APP_API_VLIDATION_ENABLED) {
-  resInterceptors.unshift(responseValidate);
-}
+/**
+ * 判断一个请求是否是用来刷新 token 的请求
+ * 注意修改 axios.d.ts 否则会有 ts 类型错误
+ *
+ * @param config AxiosRequestConfig 请求配置
+ * @returns {Boolean} 返回一个布尔值, 是否是用来刷新 token 的请求
+ */
+export const isRefreshTokenRequest = (config: AxiosRequestConfig): boolean => Boolean(config.isRefreshTokenRequest);
+
+/**
+ * 重新发送因 accessToken 过期而失败的请求
+ * 为什么不直接在 handleAccessTokenExpired 中处理呢?
+ * 为了方便测试, 如果直接写死, 那么无法模拟 axiosInst 和 config 参数
+ * 注意修改 axios.d.ts 否则会有 ts 类型错误
+ *
+ * @param axiosInst AxiosInstance 实例
+ * @param config AxiosRequestConfig 请求配置
+ */
+export const retryFailedRequest = (axiosInst: AxiosInstance, config: AxiosRequestConfig) => axiosInst.request(config);
 
 /////////////////////////////////////////////////////////////////
-// 默认的 http 实例
+// 创建默认的 http 实例
+// 可以直接使用这个实例, 也可以根据需要手动创建一个实例
 /////////////////////////////////////////////////////////////////
+const reqInterceptors: Array<RequestInterceptor> = [genRequestId, withBearerToken];
+const resInterceptors: Array<ResponseInterceptor> = [unwrapData];
+const errInterceptors: Array<ErrorInterceptor> = [
+  internalErrorHandler,
+  validationErrorHandler,
+  accessTokenExpiredHandler,
+];
+
 export const http = createHttpClient(
   {
     baseURL: env.VITE_APP_API_BASE_URL,
@@ -70,6 +89,7 @@ export const http = createHttpClient(
       "Content-Type": "application/json",
     },
   },
-  reqInterceptors as Array<RequestInterceptor<unknown>>,
-  resInterceptors as Array<ResponseInterceptor<unknown>>,
+  reqInterceptors,
+  resInterceptors,
+  errInterceptors,
 );

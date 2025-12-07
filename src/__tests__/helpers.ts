@@ -9,7 +9,12 @@ import {
   VueRouterMock,
 } from "vue-router-mock";
 import { routes, setRouterInstance, setupRouterGuards } from "@/router";
-import { createHttpClient, type RequestInterceptor, type ResponseInterceptor } from "@/tools/http";
+import {
+  createHttpClient,
+  type ErrorInterceptor,
+  type RequestInterceptor,
+  type ResponseInterceptor,
+} from "@/tools/http";
 
 /**
  * 设置路由模拟器(RouterMock 是专门用于测试 vue-router 的库)
@@ -76,23 +81,27 @@ export function resetStorage() {
   sessionStorage.clear();
 }
 
-// 初始化模拟 http 及一些助手函数
+// 初始化模拟 axios-mock-adapter 及一些助手函数
 export function initMockHttp(
-  reqInterceptor?: RequestInterceptor<unknown>,
-  resInterceptor?: ResponseInterceptor<unknown>,
+  reqInterceptor?: RequestInterceptor,
+  resInterceptor?: ResponseInterceptor,
+  errInterceptor?: ErrorInterceptor,
 ) {
-  const reqInterceptors: Array<RequestInterceptor<unknown>> = [];
-  const resInterceptors: Array<ResponseInterceptor<unknown>> = [];
+  const reqInterceptors: Array<RequestInterceptor> = [];
+  const resInterceptors: Array<ResponseInterceptor> = [];
+  const errInterceptors: Array<ErrorInterceptor> = [];
   if (reqInterceptor) {
     reqInterceptors.push(reqInterceptor);
   }
-
   if (resInterceptor) {
     resInterceptors.push(resInterceptor);
   }
+  if (errInterceptor) {
+    errInterceptors.push(errInterceptor);
+  }
 
-  const http = createHttpClient({}, reqInterceptors, resInterceptors);
-  const mockServer = new AxiosMockAdapter(http);
+  const mockClient = createHttpClient({}, reqInterceptors, resInterceptors, errInterceptors);
+  const mockServer = new AxiosMockAdapter(mockClient);
   mockServer.reset();
 
   // 模拟请求的响应
@@ -100,9 +109,14 @@ export function initMockHttp(
     mockServer.onGet("/mock-request").reply(status, body, headers || {});
   }
 
+  // 模拟错误请求
+  function replyError(status: number = 500) {
+    return mockServer.onGet("/mock-request").reply(status);
+  }
+
   // 模拟发送请求
   function send(opts = {}) {
-    return http.get("/mock-request", opts);
+    return mockClient.get("/mock-request", opts);
   }
 
   // 获取最后一个请求的信息
@@ -112,7 +126,10 @@ export function initMockHttp(
   }
 
   return {
+    mockClient,
+    mockServer,
     reply,
+    replyError,
     send,
     getLastRequest,
   };
