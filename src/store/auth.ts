@@ -15,9 +15,10 @@ export const useAuth = defineStore("auth", () => {
     password: "",
   });
   function setLoginFormData(data?: LoginFormType) {
-    if (data) {
-      loginForm.value = encodePassword(data);
+    if (!data) {
+      return;
     }
+    loginForm.value = encodePassword(data);
   }
 
   const $loading = useLoading();
