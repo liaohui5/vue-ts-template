@@ -1,9 +1,8 @@
 import { HttpResponse, http } from "msw";
 import { useMockApi } from "@/tools";
-import { mockLoginResponse } from "@/validation/auth.schema";
+import { mockLoginResponse, mockRefreshAccessToken } from "@/__mocks__/mocks";
 
-export const loginHandler = http.post(useMockApi("/api/auth"), () => {
-  // 直接根据验证规则来生成对应的数据
+export const loginHandler = http.post(useMockApi("/api/auth/login"), () => {
   const mockData = mockLoginResponse.generate();
   mockData.avatar = "https://avatars.githubusercontent.com/u/29266093";
   return HttpResponse.json(mockData);
@@ -18,4 +17,9 @@ export const loginHandler = http.post(useMockApi("/api/auth"), () => {
   //   created_at: "2024-06-10T17:17:09.000Z",
   //   token: "msw-mock-token-string",
   // });
+});
+
+export const refreshAccessToken = http.post(useMockApi("/api/auth/refresh_access_token"), () => {
+  const mockData = mockRefreshAccessToken.generate();
+  return HttpResponse.json(mockData);
 });
